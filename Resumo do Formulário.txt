@@ -1,0 +1,26 @@
+Resumo do Formulário (52 respostas)
+
+Perfil: público jovem (mediana 18 anos), majoritariamente estudantes.
+
+Comportamento:
+
+75% já participaram de grupos por interesse
+69% compartilhariam habilidade sem cobrar
+40% têm hobby que querem praticar mas não conhecem gente
+48% já usaram algum app/site parecido
+
+Preferências:
+
+Maioria prefere escolher entrar em grupos (não ser convidado automaticamente)
+88% topariam criar um grupo do zero com ajuda da plataforma
+Nichos mais citados: esportes, jogos, estudos, música
+
+Interesse no app: média ~3,8/5, ninguém deu nota 1 — forte validação.
+
+Barreiras principais: confiança e tempo (as mais citadas).
+
+Confiança vem de: indicação de amigos e avaliações.
+
+Em geral:
+
+Público jovem, aberto à troca sem dinheiro, valoriza autonomia de escolha e confia mais em indicação/avaliação do que verificação formal — confiança é a barreira nº1 a resolver no design do produto.
