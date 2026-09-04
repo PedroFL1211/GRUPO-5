@@ -1,0 +1,19 @@
+Requisitos Não Funcionais
+
+Desempenho: respostas rápidas (buscas, vídeo, picos de acesso)
+
+Segurança: criptografia, autenticação forte, LGPD/GDPR, proteção contra fraude
+
+Escalabilidade: suportar crescimento de usuários e dados
+
+Disponibilidade: uptime alto, backup e monitoramento
+
+Usabilidade: interface intuitiva, acessível e multilíngue
+
+Compatibilidade: iOS, Android, Web e principais navegadores
+
+Manutenibilidade: código modular, documentado, com CI/CD
+
+Auditabilidade: logs rastreáveis de transações e ações
+
+Legal: termos de uso, privacidade e conformidade com pagamentos

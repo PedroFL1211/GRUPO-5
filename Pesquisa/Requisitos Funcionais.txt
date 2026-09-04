@@ -1,0 +1,44 @@
+Requisitos Funcionais 
+
+Usuário e Perfil
+
+Cadastro/login e edição de perfil
+Usuário pode ser mentor e aprendiz ao mesmo tempo
+Exibição de reputação/avaliações
+
+Publicar Habilidade (Mentor)
+
+Criar anúncio (título, descrição, categoria, mídia, nível)
+Definir formato (online/presencial), preço e disponibilidade
+Editar/pausar/remover anúncio
+
+Buscar Habilidade (Aprendiz)
+
+Buscar e filtrar por categoria, preço, local, avaliação
+Ver perfil do mentor e favoritar anúncios
+
+Agendamento e Comunicação
+
+Solicitar, aceitar/recusar sessões
+Chat interno e videochamada integrada
+Notificações e sincronização com calendário
+
+Pagamentos
+
+Pagamento in-app ou troca de habilidades (sem dinheiro)
+Reembolso e comprovantes
+
+Avaliação
+
+Mentor e aprendiz se avaliam mutuamente após a sessão
+Denúncia de comportamento inadequado
+
+Progresso
+
+Histórico de aulas dadas/feitas
+Certificado opcional de conclusão
+
+Admin
+
+Moderação de anúncios e denúncias
+Suporte a disputas e métricas de uso
