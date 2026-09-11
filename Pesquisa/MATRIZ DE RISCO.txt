@@ -1,0 +1,140 @@
+========================================================================
+MATRIZ DE RISCO - APP DE SKILLS (Requisitos Funcionais)
+========================================================================
+Legenda:
+  Probabilidade: Baixa / Média / Alta
+  Impacto:       Baixo / Médio / Alto
+  Nível de Risco: Baixo / Médio / Alto / Crítico
+========================================================================
+
+------------------------------------------------------------------------
+1. CADASTRO E PERFIL DE USUÁRIO (RF01-RF05)
+------------------------------------------------------------------------
+Risco: Perfis falsos ou duplicados comprometem a confiança na plataforma
+Probabilidade: Alta        Impacto: Alto        Nível: CRÍTICO
+Mitigação: Verificação de identidade opcional, validação de e-mail/telefone,
+sistema de denúncia de perfis suspeitos.
+
+Risco: Baixa adesão à verificação de identidade (usuários não completam)
+Probabilidade: Média       Impacto: Médio        Nível: MÉDIO
+Mitigação: Tornar verificação simples e opcional, com benefícios visíveis
+(selo, mais visibilidade nas buscas).
+
+------------------------------------------------------------------------
+2. PUBLICAÇÃO DE HABILIDADES / MENTOR (RF06-RF12)
+------------------------------------------------------------------------
+Risco: Anúncios com conteúdo inadequado, enganoso ou de baixa qualidade
+Probabilidade: Média       Impacto: Alto         Nível: ALTO
+Mitigação: Moderação de anúncios antes da publicação (RF38), diretrizes
+claras de conteúdo, denúncia pela comunidade.
+
+Risco: Mentores definem preços/disponibilidade e depois não cumprem
+Probabilidade: Média       Impacto: Médio        Nível: MÉDIO
+Mitigação: Sistema de avaliação pós-sessão (RF29) e histórico de
+cumprimento visível no perfil.
+
+------------------------------------------------------------------------
+3. BUSCA E DESCOBERTA (RF13-RF17)
+------------------------------------------------------------------------
+Risco: Algoritmo de recomendação pouco preciso gera baixa relevância
+Probabilidade: Média       Impacto: Médio        Nível: MÉDIO
+Mitigação: Início com filtros manuais robustos, evoluir recomendação
+com dados de uso reais (aprendizado incremental).
+
+Risco: Poucos anúncios/mentores em determinadas regiões (efeito de rede)
+Probabilidade: Alta        Impacto: Alto         Nível: CRÍTICO
+Mitigação: Estratégia de lançamento por comunidades/nichos específicos,
+incentivo a criação de grupos (RF-brainstorm: "começar do zero").
+
+------------------------------------------------------------------------
+4. AGENDAMENTO E COMUNICAÇÃO (RF18-RF23)
+------------------------------------------------------------------------
+Risco: Falhas na sincronização de calendário causam conflitos de horário
+Probabilidade: Média       Impacto: Médio        Nível: MÉDIO
+Mitigação: Testes extensivos de integração, fallback manual de horários.
+
+Risco: Instabilidade na videochamada integrada prejudica a experiência
+Probabilidade: Média       Impacto: Alto         Nível: ALTO
+Mitigação: Usar provedores de infraestrutura confiáveis (ex: WebRTC
+gerenciado), opção de fallback para link externo (Zoom/Meet).
+
+Risco: Uso do chat interno para negociações fora da plataforma (vazamento)
+Probabilidade: Alta        Impacto: Médio        Nível: ALTO
+Mitigação: Políticas de uso, monitoramento leve de padrões suspeitos
+(sem violar privacidade), incentivo a permanecer no app (garantias).
+
+------------------------------------------------------------------------
+5. PAGAMENTOS E TRANSAÇÕES (RF24-RF28)
+------------------------------------------------------------------------
+Risco: Fraude em pagamentos ou uso indevido do sistema de escrow
+Probabilidade: Média       Impacto: Alto         Nível: ALTO
+Mitigação: Parceria com gateway de pagamento confiável, conformidade
+PCI-DSS, monitoramento de transações suspeitas.
+
+Risco: Disputas sobre reembolso/cancelamento geram atrito e churn
+Probabilidade: Alta        Impacto: Médio        Nível: ALTO
+Mitigação: Política de cancelamento clara e visível antes da confirmação,
+suporte ágil para disputas (RF39).
+
+Risco: Sistema de troca de habilidades (sem dinheiro) dificulta
+monetização do negócio
+Probabilidade: Alta        Impacto: Alto         Nível: CRÍTICO
+Mitigação: Definir modelo de receita alternativo (assinatura premium,
+taxa sobre transações pagas, funcionalidades extras pagas).
+
+------------------------------------------------------------------------
+6. AVALIAÇÃO E REPUTAÇÃO (RF29-RF32)
+------------------------------------------------------------------------
+Risco: Avaliações falsas ou manipuladas (positivas ou negativas)
+Probabilidade: Média       Impacto: Alto         Nível: ALTO
+Mitigação: Avaliação só liberada após sessão confirmada por ambas as
+partes, detecção de padrões suspeitos.
+
+Risco: Comportamento inadequado não denunciado a tempo, gerando dano
+a outros usuários
+Probabilidade: Baixa        Impacto: Alto         Nível: MÉDIO
+Mitigação: Canal de denúncia visível e resposta rápida da moderação.
+
+------------------------------------------------------------------------
+7. APRENDIZADO E PROGRESSO (RF33-RF36)
+------------------------------------------------------------------------
+Risco: Certificados emitidos sem validade real geram expectativa
+equivocada no usuário
+Probabilidade: Média       Impacto: Baixo        Nível: BAIXO
+Mitigação: Deixar claro que o certificado é informal/não oficial.
+
+------------------------------------------------------------------------
+8. ADMINISTRAÇÃO E MODERAÇÃO (RF37-RF40)
+------------------------------------------------------------------------
+Risco: Volume de denúncias/disputas maior que capacidade da equipe de
+moderação
+Probabilidade: Média       Impacto: Alto         Nível: ALTO
+Mitigação: Ferramentas de moderação semi-automatizadas, priorização por
+gravidade, equipe escalável conforme crescimento.
+
+------------------------------------------------------------------------
+9. NOTIFICAÇÕES E ENGAJAMENTO (RF41-RF42)
+------------------------------------------------------------------------
+Risco: Excesso de notificações gera desinstalação do app
+Probabilidade: Média       Impacto: Médio        Nível: MÉDIO
+Mitigação: Preferências de notificação configuráveis pelo usuário,
+testes A/B de frequência.
+
+========================================================================
+RESUMO - RISCOS CRÍTICOS (prioridade máxima)
+========================================================================
+1. Perfis falsos comprometendo confiança (Cadastro)
+2. Baixa densidade de usuários/mentores por região (efeito de rede)
+3. Modelo de troca sem dinheiro dificultando monetização
+
+========================================================================
+RESUMO - RISCOS ALTOS (segunda prioridade)
+========================================================================
+1. Anúncios com conteúdo inadequado
+2. Instabilidade em videochamadas
+3. Uso do chat para negociar fora da plataforma
+4. Fraude em pagamentos/escrow
+5. Disputas de reembolso/cancelamento
+6. Avaliações falsas/manipuladas
+7. Sobrecarga da equipe de moderação
+========================================================================
