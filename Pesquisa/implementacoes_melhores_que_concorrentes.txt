@@ -1,0 +1,66 @@
+IMPLEMENTAÇÕES MELHORES QUE A CONCORRÊNCIA
+App de Skills e Grupos por Afinidade
+
+==================================================
+1. CONCORRENTES ANALISADOS
+==================================================
+
+Não há concorrente direto no Brasil que junte "troca de habilidades sem dinheiro" com "grupos por afinidade". Os mais próximos:
+
+  - Bliive / Bancos de Tempo: troca de habilidades por "crédito de horas". Pioneiro no conceito, mas com baixa atividade atual e pouca experiência mobile.
+  - Meetup: maior rede de grupos por afinidade (60M+ usuários), mas cobra do organizador (~US$19/mês) e não trata de troca de conhecimento.
+  - Grupos informais (WhatsApp/Facebook): o concorrente real hoje — 75% do público já participa de algo assim, mas sem confiança estruturada nem descoberta por interesse.
+  - Superprof/Preply/Skillshare: catálogo de professores, mas sempre envolvem dinheiro, fora do perfil do público (69% topa ensinar sem cobrar).
+
+==================================================
+2. LIMITAÇÕES DOS CONCORRENTES
+==================================================
+
+  Bliive/Bancos de Tempo -> baixa atividade, sem foco em grupos, descoberta pouco intuitiva
+  Meetup -> cobra do organizador, foco só em eventos, sem troca de habilidades
+  Grupos informais -> sem verificação nem avaliação, depende de já conhecer alguém
+  Plataformas pagas -> sempre envolvem dinheiro
+
+==================================================
+3. IMPLEMENTAÇÕES RECOMENDADAS
+==================================================
+
+--- 3.1 Descoberta e Onboarding ---
+  - Onboarding em 2-3 perguntas (nicho + localização + ensinar/aprender), sem paywall para criar grupo — ataca a barreira de "falta de tempo"
+  - Busca por nicho, localização, nível e formato (presencial/online) — recurso que WhatsApp/Facebook não têm
+  - Descoberta híbrida: lista aberta (preferida por 50%) + sugestão automática (demandada por 37%)
+
+--- 3.2 Confiança e Segurança ---
+  - Indicação de amigos como eixo central de crescimento (fator de confiança mais citado)
+  - Avaliação por habilidade específica, não só por perfil geral — ausente em Meetup e Bliive
+  - Verificação em camadas: básica obrigatória (e-mail/telefone) + avançada opcional (documento)
+  - Modo de segurança para menores (12% da amostra tem 15-17 anos) — nenhum concorrente trata isso
+
+--- 3.3 Modelo de Troca ---
+  - Sem barreira de entrada: aprender antes de ensinar, sem exigir saldo prévio de crédito (resolve o efeito "ovo e galinha" do Bliive)
+  - Formatos flexíveis no mesmo app: 1:1, grupo e assíncrono (Meetup só cobre eventos; Bliive só sessões marcadas)
+  - Criação de grupo sempre gratuita, ao contrário do modelo pago do Meetup
+
+--- 3.4 Comunidade Hiperlocal ---
+  - Lançamento por polo (campus/bairro) para gerar densidade local antes de expandir — resolve a barreira de "falta de gente próxima"
+  - Parcerias institucionais (universidades/escolas) gratuitas para o público estudantil (83% da amostra)
+
+==================================================
+4. COMPARATIVO DE DIFERENCIAIS
+==================================================
+
+Recurso                                    | Bliive/Bancos de Tempo | Meetup            | Nosso App
+--------------------------------------------|------------------------|-------------------|------------------------
+Custo para criar grupo                     | Gratuito                | Pago (~US$19/mês) | Gratuito
+Troca sem dinheiro                         | Sim (crédito de horas)  | Não               | Sim, sem saldo prévio
+Avaliação por habilidade específica        | Não                     | Não               | Sim
+Indicação de amigos como eixo de confiança | Não                     | Parcial           | Sim, nativo
+Segurança dedicada a menores               | Não                     | Não               | Sim
+Descoberta híbrida (lista + sugestão)      | Não                     | Parcial (só lista)| Sim
+Formatos 1:1, grupo e assíncrono           | Parcial (só sessões)    | Não (só eventos)  | Sim
+
+==================================================
+5. CONCLUSÃO
+==================================================
+
+Nenhum concorrente resolve o problema por completo: Meetup cobra e não trata de troca de conhecimento; Bliive/Bancos de Tempo têm baixa presença digital e travam o primeiro uso pela lógica de crédito; grupos informais não têm confiança estruturada. O diferencial está em unir, num produto gratuito, a descoberta por afinidade do Meetup, a troca sem dinheiro dos bancos de tempo (sem a barreira do crédito prévio) e mecanismos de confiança que nenhum concorrente oferece de forma completa.
