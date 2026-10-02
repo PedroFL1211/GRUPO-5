@@ -1,0 +1,248 @@
+/* Desenrola — Tela de Login (Protótipo visual em HTML+CSS)
+   Paleta: azul-petróleo + coral + creme (ver Estudo de Cores — Desenrola) */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --petroleo-escuro: #053640;
+  --petroleo-base: #0E6E82;
+  --petroleo-vibrante: #189CB5;
+  --petroleo-claro: #A6DEE9;
+
+  --coral-escuro: #993C1D;
+  --coral-base: #D85A30;
+  --coral-suave: #F0997B;
+  --coral-claro: #FAECE7;
+
+  --fundo-principal: #FFFFFF;
+  --fundo-secundario: #F1EFE8;
+  --texto-secundario: #5F5E5A;
+  --texto-principal: #2C2C2A;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--fundo-secundario);
+  color: var(--texto-principal);
+}
+
+/* ---------- Nav ---------- */
+
+nav {
+  background-color: var(--petroleo-base);
+  color: white;
+  padding: 16px 24px;
+}
+
+nav h2 {
+  font-family: 'Fredoka', sans-serif;
+  margin: 0 0 8px 0;
+}
+
+.navegacao {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navegacao li {
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.navegacao a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.navegacao a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Login section ---------- */
+
+main {
+  padding: 48px 20px;
+}
+
+#login {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.logo-img {
+  height: 38px;
+}
+
+.logo-tagline {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+}
+
+/* ---------- Card ---------- */
+
+.login-card {
+  width: 100%;
+  background-color: var(--fundo-principal);
+  border-radius: 22px 22px 22px 6px;
+  padding: 34px 30px;
+  box-shadow: 0 14px 34px rgba(5, 54, 64, 0.1);
+}
+
+.login-card h1 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+  margin: 0 0 3px 0;
+}
+
+.login-card .subtitle {
+  font-size: 14px;
+  color: var(--texto-secundario);
+  margin: 0 0 24px 0;
+}
+
+/* ---------- Form ---------- */
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+  margin-top: 16px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1.5px solid #E4E1D8;
+  border-radius: 999px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14.5px;
+  color: var(--texto-principal);
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--petroleo-vibrante);
+  box-shadow: 0 0 0 3px rgba(24, 156, 181, 0.15);
+}
+
+.opcoes-login {
+  list-style-type: none;
+  padding: 0;
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+}
+
+.opcoes-login a {
+  color: var(--petroleo-base);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.opcoes-login a:hover {
+  text-decoration: underline;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--coral-base);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--coral-escuro);
+}
+
+/* ---------- Google / divisor ---------- */
+
+.divider {
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--texto-secundario);
+  margin: 24px 0;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px;
+  border: 1.5px solid #E4E1D8;
+  border-radius: 999px;
+  background-color: var(--fundo-principal);
+  color: var(--texto-principal);
+  font-weight: 700;
+  font-size: 14.5px;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: #FAFAF7;
+}
+
+.icon-google {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- Footers ---------- */
+
+.signup-footer {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--texto-secundario);
+}
+
+.signup-footer a {
+  color: var(--coral-base);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+footer {
+  text-align: center;
+  color: var(--texto-secundario);
+  padding: 20px;
+  font-size: 13px;
+}
