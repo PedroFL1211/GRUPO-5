@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários - Desenrola</title>
+</head>
+<body>
+
+    <h1>Usuários</h1>
+
+    <table border="1">
+        <tr>
+            <th>Nome</th>
+            <th>Usuário</th>
+            <th>Ensina</th>
+            <th>Quer aprender</th>
+            <th>Ações</th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.habilidadeEnsina }}</td>
+            <td>{{ usuario.habilidadeAprende }}</td>
+            <td>
+                <a href="/usuarios/{{ usuario.id }}/editar/">Editar</a>
+                <form method="post" action="/usuarios/{{ usuario.id }}/remover/">
+                    {% csrf_token %}
+                    <button type="submit">Remover</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/cadastro/">Novo usuário</a> | <a href="/">Voltar ao login</a></p>
+
+</body>
+</html>
