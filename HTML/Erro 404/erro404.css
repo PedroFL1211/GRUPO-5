@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --azul-petroleo-escuro: #053640;
+  --azul-petroleo-base: #0E6E82;
+  --azul-petroleo-vibrante: #189CB5;
+  --azul-petroleo-claro: #A6DEE9;
+  --coral-escuro: #993C1D;
+  --coral-base: #D85A30;
+  --coral-suave: #F0997B;
+  --coral-clarissimo: #FAECE7;
+  --azul-confianca: #185FA5;
+  --vermelho-erro: #A32D2D;
+  
+  --fundo-principal: #FFFFFF;
+  --fundo-secundario: #F1EFE8;
+  --texto-secundario: #5F5E5A;
+  --texto-principal: #2C2C2A;
+
+  --font-display: 'Fredoka', sans-serif;
+  --font-sans: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: var(--fundo-secundario);
+    font-family: var(--font-sans);
+    color: var(--texto-principal);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+}
+
+.error-container {
+    background-color: var(--fundo-principal);
+    padding: 60px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(5, 54, 64, 0.08);
+    max-width: 500px;
+    width: 100%;
+}
+
+.error-code {
+    font-family: var(--font-display);
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--azul-petroleo-base);
+    margin: 0;
+    line-height: 1;
+}
+
+.error-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--texto-principal);
+    margin: 20px 0 16px;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: var(--texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 36px;
+}
+
+.btn-home {
+    display: inline-block;
+    background-color: var(--coral-base);
+    color: var(--fundo-principal);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-home:hover {
+    background-color: var(--coral-escuro);
+}
+
+.btn-home:active {
+    transform: scale(0.98);
+}
