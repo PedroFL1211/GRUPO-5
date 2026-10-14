@@ -1,0 +1,116 @@
+Definição de Categorias de Habilidades
+
+## 1. Objetivo da tarefa
+
+Definir as principais categorias de habilidades disponíveis na plataforma Desenrola, organizando os conhecimentos em grupos para facilitar a navegação, a busca por usuários e a identificação de interesses em comum.
+
+
+## 2. Categorias de habilidades
+
+
+**1. Idiomas**
+- Inglês
+- Espanhol
+- Francês
+- Libras
+- Italiano
+
+
+**2. Tecnologia e Programação**
+- Python
+- JavaScript
+- HTML e CSS
+- Desenvolvimento de sites
+- Excel
+
+
+**3. Artes e Criatividade**
+- Desenho
+- Pintura
+- Fotografia
+- Edição de vídeos
+- Design gráfico
+
+
+**4. Música**
+- Violão
+- Piano
+- Canto
+- Guitarra
+- Teoria musical
+
+
+**5. Educação e Estudos**
+- Matemática
+- Física
+- Química
+- Redação
+- Técnicas de estudo
+
+
+**6. Negócios e Finanças**
+- Educação financeira
+- Empreendedorismo
+- Marketing digital
+- Gestão de projetos
+- Organização financeira
+
+
+**7. Saúde e Bem-estar**
+- Yoga
+- Meditação
+- Alongamento
+- Hábitos saudáveis
+- Técnicas de relaxamento
+
+
+**8. Esportes e Atividades Físicas**
+- Futebol
+- Vôlei
+- Dança
+- Corrida
+- Xadrez
+
+
+**9. Culinária**
+- Receitas básicas
+- Confeitaria
+- Panificação
+- Culinária vegetariana
+- Técnicas de cozinha
+
+
+**10. Desenvolvimento Pessoal e Profissional**
+- Comunicação
+- Oratória
+- Organização pessoal
+- Preparação para entrevistas
+- Elaboração de currículos
+
+
+## 3. Como as categorias serão utilizadas
+
+Durante o cadastro ou a edição do perfil, os usuários poderão selecionar as categorias relacionadas às habilidades que sabem ensinar e às que desejam aprender.
+
+Por exemplo:
+
+**Usuário A:**
+- Sabe ensinar: Inglês
+- Deseja aprender: Violão
+
+
+**Usuário B:**
+- Sabe ensinar: Violão
+- Deseja aprender: Inglês
+
+
+Nesse caso, a plataforma poderá identificar interesses compatíveis entre os usuários, facilitando uma possível troca de conhecimentos.
+
+Além disso, as categorias poderão ser utilizadas como filtros na busca de pessoas, tornando a navegação mais organizada e intuitiva.
+
+
+## 4. Resultado esperado
+
+Com a definição das categorias, o Desenrola terá uma estrutura inicial para organizar as habilidades cadastradas, facilitar a identificação de usuários com interesses compatíveis e melhorar a experiência de navegação.
+
+Essa organização também servirá como base para o desenvolvimento de funcionalidades futuras, como filtros de pesquisa, recomendações de perfis e sugestões de trocas de habilidades.
