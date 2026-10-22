@@ -292,3 +292,40 @@ h1, h2, h3, h4 {
     color: var(--texto-secundario);
     font-weight: 600;
 }
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px;
+        gap: 16px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .skills-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .profile-stats {
+        flex-direction: column;
+    }
+
+    .stat-item {
+        border-right: none;
+        border-bottom: 1px solid var(--fundo-secundario);
+    }
+
+    .stat-item:last-child {
+        border-bottom: none;
+    }
+}

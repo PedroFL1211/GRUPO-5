@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - Desenrola</title>
+    <link rel="stylesheet" href="editar.css">
+</head>
+<body>
+    <nav class="topbar">
+        <a href="perfil.html" class="btn-back">❮ Voltar</a>
+        <h1 class="page-title">Editar perfil</h1>
+        <button class="btn-save">✓ Salvar</button>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <div class="card-header">
+                <h2>Identidade</h2>
+                <p>Como você aparece no Desenrola</p>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" value="Marina Costa">
+                </div>
+                <div class="input-group">
+                    <label>Cidade</label>
+                    <input type="text" value="São Paulo, SP">
+                </div>
+            </div>
+            <div class="input-group full-width">
+                <div class="label-header">
+                    <label>Descrição</label>
+                    <span>97/200</span>
+                </div>
+                <textarea rows="3">Estudante de Design que ama música e artesanato. Topa trocar ideia sobre qualquer coisa criativa!</textarea>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Habilidades</h2>
+                <p>Adicione e remova o que você ensina e o que quer aprender</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-box">
+                    <div class="skill-box-header">
+                        <h3>O que eu posso ensinar</h3>
+                        <span class="badge">4</span>
+                    </div>
+                    <div class="skill-item">
+                        <span><span class="dot dot-teal"></span> Violão popular</span>
+                        <button class="btn-remove">✕</button>
+                    </div>
+                    <div class="skill-item">
+                        <span><span class="dot dot-teal"></span> Tricô básico</span>
+                        <button class="btn-remove">✕</button>
+                    </div>
+                    <div class="add-skill">
+                        <input type="text" placeholder="Adicionar habilidade">
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+
+                <div class="skill-box">
+                    <div class="skill-box-header">
+                        <h3>O que eu quero aprender</h3>
+                        <span class="badge">4</span>
+                    </div>
+                    <div class="skill-item">
+                        <span><span class="dot dot-coral"></span> Fotografia analógica</span>
+                        <button class="btn-remove">✕</button>
+                    </div>
+                    <div class="skill-item">
+                        <span><span class="dot dot-coral"></span> Inglês — conversação</span>
+                        <button class="btn-remove">✕</button>
+                    </div>
+                    <div class="add-skill">
+                        <input type="text" placeholder="Adicionar habilidade">
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>Formato de troca</h2>
+                <p>Como você prefere fazer as trocas de habilidade</p>
+            </div>
+            <div class="format-grid">
+                <div class="format-card">
+                    <span class="icon">📍</span>
+                    <h4>Presencial</h4>
+                    <p>Encontro no olho, num café ou praça</p>
+                    <div class="radio"></div>
+                </div>
+                <div class="format-card">
+                    <span class="icon">💻</span>
+                    <h4>Online</h4>
+                    <p>Chamada de vídeo ou mensagem</p>
+                    <div class="radio"></div>
+                </div>
+                <div class="format-card active">
+                    <span class="icon">🔀</span>
+                    <h4>Flexível</h4>
+                    <p>Tanto presencial quanto online</p>
+                    <div class="radio checked">✓</div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
