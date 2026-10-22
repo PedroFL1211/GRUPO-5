@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenrola - Troca de Habilidades PUC-Rio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-handshake"></i> Desenrola <span>PUC</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#feed" class="active">Explorar</a>
+            <a href="#como-funciona">Como Funciona</a>
+            <a href="#meus-creditos"><i class="fas fa-coins"></i> 3 Fichas</a>
+        </nav>
+        <div class="user-actions">
+            <button class="btn btn-secondary">Entrar com Login PUC</button>
+            <button class="btn btn-primary">+ Oferecer Habilidade</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Troque conhecimentos e facilidades na PUC-Rio</h1>
+        <p>Aprenda Cálculo, pratique Espanhol ou consiga ajuda com Design. Tudo em troca de horas de monitoria ou ajuda no campus!</p>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="O que você quer aprender ou precisa de ajuda hoje? (ex: Python, Ilustração, Excel)">
+            <button class="btn btn-primary">Buscar</button>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <h3>Categorias</h3>
+            <ul class="category-list">
+                <li class="active"><i class="fas fa-th-large"></i> Todas</li>
+                <li><i class="fas fa-calculator"></i> Exatas & Exatas Pro</li>
+                <li><i class="fas fa-laptop-code"></i> Programação & Tech</li>
+                <li><i class="fas fa-language"></i> Idiomas</li>
+                <li><i class="fas fa-paint-brush"></i> Design & Mídia</li>
+                <li><i class="fas fa-music"></i> Música & Arte</li>
+                <li><i class="fas fa-graduation-cap"></i> Resumos & Provas</li>
+            </ul>
+
+            <div class="filter-group">
+                <h3>Localização no Campus</h3>
+                <label><input type="checkbox" checked> Pilotis do Leme</label><br>
+                <label><input type="checkbox" checked> Biblioteca (BCT)</label><br>
+                <label><input type="checkbox" checked> Bandejão / Vila dos Diretórios</label><br>
+                <label><input type="checkbox" checked> Online (Teams/Discord)</label>
+            </div>
+        </aside>
+
+        <!-- Cards Feed -->
+        <section class="feed" id="feed">
+            <div class="feed-header">
+                <h2>Oportunidades de Troca</h2>
+                <div class="sort-options">
+                    <label for="sort">Ordenar por:</label>
+                    <select id="sort">
+                        <option>Mais recentes</option>
+                        <option>Mais populares</option>
+                        <option>Perto de mim</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Card 1 -->
+                <article class="card">
+                    <div class="card-header">
+                        <span class="badge tag-exatas">Exatas</span>
+                        <span class="time-posted">Há 15 min</span>
+                    </div>
+                    <h3>Ajudo com Cálculo 1 e Cálculo 2</h3>
+                    <p class="description">Sou do 6º período de Eng. Civil. Posso tirar dúvidas para as P1/P2 da turma do prof. Marcus.</p>
+                    <div class="trade-info">
+                        <div class="offering">
+                            <strong><i class="fas fa-gift"></i> Oferece:</strong> Aulas de Cálculo / Tira-dúvidas
+                        </div>
+                        <div class="seeking">
+                            <strong><i class="fas fa-search"></i> Busca:</strong> Conversação em Inglês ou ajuda em Photoshop
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="user-info">
+                            <div class="avatar">LM</div>
+                            <div>
+                                <span class="user-name">Lucas M.</span>
+                                <span class="user-dept">Engenharia Civil</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Propor Troca</button>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="card">
+                    <div class="card-header">
+                        <span class="badge tag-tech">Tech</span>
+                        <span class="time-posted">Há 1h</span>
+                    </div>
+                    <h3>Monitoria de Python e Estrutura de Dados</h3>
+                    <p class="description">Dou apoio em lógica de programação, tarefas e projetos finais da galera de INF.</p>
+                    <div class="trade-info">
+                        <div class="offering">
+                            <strong><i class="fas fa-gift"></i> Oferece:</strong> Python / C++
+                        </div>
+                        <div class="seeking">
+                            <strong><i class="fas fa-search"></i> Busca:</strong> Resumos de História / Introdução à Economia
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="user-info">
+                            <div class="avatar avatar-purple">BG</div>
+                            <div>
+                                <span class="user-name">Beatriz G.</span>
+                                <span class="user-dept">Ciência da Computação</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Propor Troca</button>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="card">
+                    <div class="card-header">
+                        <span class="badge tag-design">Design</span>
+                        <span class="time-posted">Há 3h</span>
+                    </div>
+                    <h3>Criação de Apresentações e Editais (Figma/PPT)</h3>
+                    <p class="description">Te ajudo a deixar os seus slides do projeto final impecáveis para os professores.</p>
+                    <div class="trade-info">
+                        <div class="offering">
+                            <strong><i class="fas fa-gift"></i> Oferece:</strong> Design de Slides e Figma
+                        </div>
+                        <div class="seeking">
+                            <strong><i class="fas fa-search"></i> Busca:</strong> Revisão de Gramática / ABNT
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="user-info">
+                            <div class="avatar avatar-green">CP</div>
+                            <div>
+                                <span class="user-name">Clara P.</span>
+                                <span class="user-dept">Design de Comunicação</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Propor Troca</button>
+                    </div>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="card">
+                    <div class="card-header">
+                        <span class="badge tag-idiomas">Idiomas</span>
+                        <span class="time-posted">Há 5h</span>
+                    </div>
+                    <h3>Tandem: Espanhol Nativo por Português/Ajuda no Campus</h3>
+                    <p class="description">Sou aluno de intercâmbio da Colômbia e quero praticar meu português falado!</p>
+                    <div class="trade-info">
+                        <div class="offering">
+                            <strong><i class="fas fa-gift"></i> Oferece:</strong> Espanhol Fluente
+                        </div>
+                        <div class="seeking">
+                            <strong><i class="fas fa-search"></i> Busca:</strong> Prática de Português / Dicas do Rio
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="user-info">
+                            <div class="avatar avatar-orange">M</div>
+                            <div>
+                                <span class="user-name">Mateo S.</span>
+                                <span class="user-dept">Relações Internacionais</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">Propor Troca</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Desenrola PUC-Rio — Projeto Comunitário de Alunos.</p>
+        <p>Não possui vínculo institucional oficial com a universidade.</p>
+    </footer>
+
+</body>
+</html>
