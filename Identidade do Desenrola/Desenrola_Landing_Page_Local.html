@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Encontre pessoas para trocar conhecimentos, compartilhar suas habilidades e aprender algo novo no Desenrola.">
+  <title>Desenrola | Troque conhecimentos</title>
+  <style>
+    :root {
+      --petroleo: #0E6E82;
+      --coral: #D85A30;
+      --coral-escuro: #993C1D;
+      --creme: #F1EFE8;
+      --texto: #2C2C2A;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--creme); color: var(--texto); font-family: Arial, sans-serif; }
+    main { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+    .apresentacao { width: 100%; max-width: 840px; }
+    .marca { margin: 0 0 48px; color: var(--petroleo); font-size: 24px; font-weight: 800; letter-spacing: -.6px; }
+    h1 { max-width: 800px; margin: 0 0 24px; color: var(--petroleo); font-size: clamp(36px, 6vw, 64px); line-height: 1.08; letter-spacing: -1.8px; }
+    .descricao { max-width: 630px; margin: 0 0 36px; font-size: clamp(17px, 2.5vw, 20px); line-height: 1.65; }
+    .cadastro { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 16px 30px; border-radius: 999px; background: var(--coral); color: #181816; font-weight: 700; font-size: 17px; text-decoration: none; }
+    .cadastro:hover { background: var(--coral-escuro); color: white; }
+    .cadastro:focus-visible { outline: 3px solid var(--petroleo); outline-offset: 5px; }
+    @media (max-width: 480px) { .marca { margin-bottom: 36px; } h1 { letter-spacing: -1px; } .cadastro { width: 100%; } }
+    [hidden] { display: none !important; }
+    label { display:block; margin:16px 0 6px; font-weight:700; }
+    input { width:100%; padding:12px; border:1px solid #5F5E5A; border-radius:8px; font:inherit; background:white; }
+    form { max-width:540px; }
+    button { border:0; cursor:pointer; margin-top:24px; }
+    .voltar { display:inline-block; margin-bottom:24px; color:var(--petroleo); }
+    #aviso { line-height:1.6; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="apresentacao" aria-labelledby="titulo">
+      <p class="marca">Desenrola</p>
+      <h1 id="titulo">Aprenda algo novo compartilhando o que você sabe.</h1>
+      <p class="descricao">No Desenrola, você encontra pessoas para trocar conhecimentos, ensinar suas habilidades e aprender com quem tem interesses em comum. Ninguém sabe tudo, mas todo mundo tem algo a compartilhar.</p>
+      <!-- Cadastro demonstrativo para visualização local. -->
+      <a class="cadastro" href="#cadastro">Cadastre-se</a>
+    </section>
+    <section id="cadastro" class="apresentacao" aria-labelledby="titulo-cadastro" hidden>
+      <a class="voltar" href="#inicio">Voltar à apresentação</a>
+      <h1 id="titulo-cadastro" tabindex="-1">Crie sua conta.</h1>
+      <p id="aviso">Esta é uma demonstração local. O formulário não envia nem salva dados. Para criar uma conta real, use o projeto Django em execução.</p>
+      <form aria-describedby="aviso">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" autocomplete="name" required>
+        <label for="usuario">Usuário</label>
+        <input id="usuario" name="username" autocomplete="username" required>
+        <label for="senha">Senha de demonstração</label>
+        <input id="senha" name="password" type="password" autocomplete="off" placeholder="Use apenas um valor fictício" required>
+        <label for="ensina">O que posso ensinar</label>
+        <input id="ensina" name="ensina" placeholder="Exemplo: programação básica" required>
+        <label for="aprende">O que quero aprender</label>
+        <input id="aprende" name="aprende" placeholder="Exemplo: inglês" required>
+        <button class="cadastro" type="submit">Testar formulário</button>
+        <p id="resultado" role="status"></p>
+      </form>
+    </section>
+  </main>
+  <script>
+    const inicio = document.querySelector('.apresentacao');
+    const cadastro = document.getElementById('cadastro');
+    function mostrarTela() {
+      const abrirCadastro = location.hash === '#cadastro';
+      inicio.hidden = abrirCadastro;
+      cadastro.hidden = !abrirCadastro;
+      document.title = abrirCadastro ? 'Cadastro demonstrativo | Desenrola' : 'Desenrola | Troque conhecimentos';
+      if (abrirCadastro) document.getElementById('titulo-cadastro').focus();
+    }
+    window.addEventListener('hashchange', mostrarTela);
+    mostrarTela();
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      document.getElementById('resultado').textContent = 'Formulário preenchido. Esta demonstração não criou uma conta nem salvou seus dados.';
+      this.reset();
+    });
+  </script>
+</body>
+</html>
