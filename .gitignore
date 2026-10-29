@@ -1,0 +1,66 @@
+# Python - cache e artefatos gerados
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+*.egg-info/
+.eggs/
+
+# Ambientes virtuais Python
+.venv/
+venv/
+env/
+ENV/
+
+# Django - dados e arquivos gerados localmente
+# Caso o banco SQLite faca parte de um exemplo que deva ser compartilhado,
+# remova a linha correspondente antes de adicionar o arquivo ao Git.
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+
+# Configuracoes privadas e credenciais
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.p12
+*.pfx
+
+# Front-end: dependencias e artefatos (apenas se forem utilizados)
+node_modules/
+.pnpm-store/
+.npm/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Logs e arquivos temporarios
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Editores: arquivos locais, sem ignorar configuracoes compartilhadas
+.idea/
+.vscode/.ropeproject/
+.vscode/*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Notebooks Jupyter
+.ipynb_checkpoints/
