@@ -55,7 +55,7 @@ ROOT_URLCONF = "MeuSite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "MeuSite" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -126,3 +126,16 @@ MAILERS = {
         "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
 }
+
+
+# Login (sistema pronto do Django, como na atividade AI4)
+LOGOUT_REDIRECT_URL = "/accounts/login/"  # Para onde vai após logout
+LOGIN_URL = "/accounts/login/"            # URL de login (padrão)
+LOGIN_REDIRECT_URL = "/usuarios/"         # Para onde vai após login
+
+# Para evitar problemas de CSRF e CORS
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:8000",
+    "http://localhost:8000",
+]

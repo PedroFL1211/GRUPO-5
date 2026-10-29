@@ -33,7 +33,12 @@
         {% endfor %}
     </table>
 
-    <p><a href="/cadastro/">Novo usuário</a> | <a href="/">Voltar ao login</a></p>
+    <p><a href="/cadastro/">Novo usuário</a></p>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Sair</button>
+    </form>
 
 </body>
 </html>
