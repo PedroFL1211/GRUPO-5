@@ -33,7 +33,7 @@
         {% endfor %}
     </table>
 
-    <p><a href="/cadastro/">Novo usuário</a></p>
+    <p><a href="/cadastro/">Novo usuário</a> | <a href="{% url 'password_change' %}">Trocar senha</a></p>
 
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
