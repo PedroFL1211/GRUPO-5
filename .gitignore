@@ -1,32 +1,35 @@
-# Python - cache e artefatos gerados
+# Python: bytecode e caches
 __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.pyre/
+
+# Python: ambientes virtuais e pacotes locais
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+
+# Testes e cobertura
 .coverage
 .coverage.*
 htmlcov/
 .tox/
 .nox/
-*.egg-info/
-.eggs/
 
-# Ambientes virtuais Python
-.venv/
-venv/
-env/
-ENV/
-
-# Django - dados e arquivos gerados localmente
-# Caso o banco SQLite faca parte de um exemplo que deva ser compartilhado,
-# remova a linha correspondente antes de adicionar o arquivo ao Git.
+# Django: banco local e arquivos gerados
+# Manter migrations/*.py e usuarios/fixtures/*.json versionados.
 db.sqlite3
 db.sqlite3-journal
+*.sqlite3-journal
 staticfiles/
 
-# Configuracoes privadas e credenciais
+# Segredos e configuracoes locais
 .env
 .env.*
 !.env.example
@@ -34,25 +37,20 @@ staticfiles/
 *.pem
 *.p12
 *.pfx
+*.key
+local_settings.py
+settings_local.py
 
-# Front-end: dependencias e artefatos (apenas se forem utilizados)
-node_modules/
-.pnpm-store/
-.npm/
-dist/
-build/
-coverage/
-*.tsbuildinfo
-
-# Logs e arquivos temporarios
+# Arquivos de log e temporarios
 *.log
 *.tmp
 *.temp
+*.bak
 *.swp
 *.swo
 *~
 
-# Editores: arquivos locais, sem ignorar configuracoes compartilhadas
+# Configuracoes pessoais de editores
 .idea/
 .vscode/.ropeproject/
 .vscode/*.log
@@ -62,5 +60,5 @@ coverage/
 Thumbs.db
 Desktop.ini
 
-# Notebooks Jupyter
+# Notebooks, se utilizados futuramente
 .ipynb_checkpoints/
