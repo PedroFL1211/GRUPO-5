@@ -1,4 +1,4 @@
-README do DESENROLA
+**README do DESENROLA**
 
 
 O **Desenrola** é uma plataforma digital de troca de conhecimentos e habilidades, desenvolvida com o propósito de tornar o aprendizado mais acessível, colaborativo e conectado à realidade das pessoas.
