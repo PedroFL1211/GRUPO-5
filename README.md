@@ -108,20 +108,7 @@ Entre as principais frentes de desenvolvimento estão:
 O uso do GitHub também permite acompanhar o histórico de alterações e a evolução do código, funcionando como um espaço de colaboração e registro técnico, marcando todas as etapas da história do projeto que estamos construindo.
 
 
-## Desafios e aprendizados
-
-Construir uma plataforma como o Desenrola envolve desafios que vão além da programação.
-
-É necessário compreender as necessidades dos usuários, transformar ideias em funcionalidades viáveis, organizar o desenvolvimento em equipe e garantir que as diferentes partes do sistema funcionem de maneira integrada.
-
-Durante esse processo, o projeto proporciona experiências práticas em desenvolvimento web, controle de versões, resolução de problemas e organização de projetos de software.
-
-Outro desafio importante é conciliar a criação de uma plataforma tecnicamente funcional com o desenvolvimento de uma experiência simples e agradável para o usuário.
-
-Por esse motivo, a equipe busca evoluir o sistema progressivamente, priorizando a construção de uma base consistente e o aprimoramento contínuo das funcionalidades.
-
-
-## Próximos passos
+## Próximas ideias 
 
 À medida que o desenvolvimento avança, o projeto pretende ampliar as possibilidades de interação e aperfeiçoar os recursos oferecidos aos usuários.
 
