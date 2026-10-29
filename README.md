@@ -149,6 +149,3 @@ Agradecemos pela paciência e pela confiança no nosso projeto, esperamos que go
 
 ## Desenrola — Ninguém Sabe Tudo
 
-**Todo mundo tem algo a aprender. Todo mundo tem algo a ensinar.**
-
-O Desenrola nasce da conexão entre essas duas possibilidades, com o objetivo de transformar conhecimento em oportunidade e colaboração em desenvolvimento.
