@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - Desenrola</title>
+</head>
+<body>
+
+    <h1>Criar conta</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>Nome</p>
+        <input type="text" name="nome">
+
+        <p>Usuário</p>
+        <input type="text" name="username">
+
+        <p>Senha</p>
+        <input type="password" name="password">
+
+        <p>O que posso ensinar</p>
+        <input type="text" name="ensina">
+
+        <p>O que quero aprender</p>
+        <input type="text" name="aprende">
+
+        <p>{{ erro }}</p>
+
+        <p><button type="submit">Cadastrar</button></p>
+    </form>
+
+    <p><a href="/">Voltar ao login</a></p>
+
+</body>
+</html>

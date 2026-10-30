@@ -1,0 +1,6 @@
+[
+  {"model": "usuarios.usuario", "pk": 1, "fields": {"nome": "Ana Souza", "username": "ana", "senha": "pbkdf2_sha256$1500000$desenrola$knCWr8BydWmiMgSD8fjmyF0+k8zBwen37ol9q0rrFBw=", "habilidadeEnsina": "Violão", "habilidadeAprende": "Inglês"}},
+  {"model": "usuarios.usuario", "pk": 2, "fields": {"nome": "Bruno Lima", "username": "bruno", "senha": "pbkdf2_sha256$1500000$desenrola$knCWr8BydWmiMgSD8fjmyF0+k8zBwen37ol9q0rrFBw=", "habilidadeEnsina": "Excel", "habilidadeAprende": "Fotografia"}},
+  {"model": "usuarios.usuario", "pk": 3, "fields": {"nome": "Carla Mendes", "username": "carla", "senha": "pbkdf2_sha256$1500000$desenrola$knCWr8BydWmiMgSD8fjmyF0+k8zBwen37ol9q0rrFBw=", "habilidadeEnsina": "Inglês", "habilidadeAprende": "Python"}},
+  {"model": "usuarios.usuario", "pk": 4, "fields": {"nome": "Diego Rocha", "username": "diego", "senha": "pbkdf2_sha256$1500000$desenrola$knCWr8BydWmiMgSD8fjmyF0+k8zBwen37ol9q0rrFBw=", "habilidadeEnsina": "Python", "habilidadeAprende": "Violão"}}
+]

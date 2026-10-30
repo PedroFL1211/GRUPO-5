@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar - Desenrola</title>
+</head>
+<body>
+
+    <h1>Editar usuário</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>Nome</p>
+        <input type="text" name="nome" value="{{ usuario.nome }}">
+
+        <p>O que posso ensinar</p>
+        <input type="text" name="ensina" value="{{ usuario.habilidadeEnsina }}">
+
+        <p>O que quero aprender</p>
+        <input type="text" name="aprende" value="{{ usuario.habilidadeAprende }}">
+
+        <p><button type="submit">Salvar</button></p>
+    </form>
+
+    <p><a href="/usuarios/">Voltar para a lista</a></p>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrar - Desenrola</title>
+</head>
+<body>
+
+    <h1>Entrar</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>Usuário</p>
+        <input type="text" name="username">
+
+        <p>Senha</p>
+        <input type="password" name="password">
+
+        <p>{{ erro }}</p>
+
+        <p><button type="submit">Entrar</button></p>
+    </form>
+
+    <p><a href="/cadastro/">Criar conta</a></p>
+
+</body>
+</html>
