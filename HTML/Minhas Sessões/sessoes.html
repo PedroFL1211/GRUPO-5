@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Sessões - Desenrola</title>
+    <link rel="stylesheet" href="sessoes.css">
+</head>
+<body>
+    <nav class="topbar">
+        <a href="./perfil.html" class="btn-back">❮ Voltar</a>
+        <h1 class="page-title">Minhas sessões</h1>
+        <div class="topbar-icons">
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>Acompanhe suas trocas</h2>
+            <p>Gerencie as habilidades que você está aprendendo com outros usuários.</p>
+        </div>
+
+        <section class="session-group">
+            <h3 class="group-title">Sessões confirmadas</h3>
+            
+            <div class="card session-card">
+                <div class="session-header">
+                    <div class="status-badge badge-success">✓ Confirmada</div>
+                    <span class="session-date">Amanhã, 14:30</span>
+                </div>
+                
+                <div class="session-body">
+                    <div class="mentor-info">
+                        <div class="avatar-circle avatar-teal">TM</div>
+                        <div>
+                            <h4 class="mentor-name">Thiago Mendes</h4>
+                            <p class="skill-name">Inglês — conversação</p>
+                        </div>
+                    </div>
+                    
+                    <div class="session-details">
+                        <span class="detail-item">💻 Online (Google Meet)</span>
+                        <span class="detail-item">⏱️ Duração: 1h</span>
+                    </div>
+                </div>
+                
+                <div class="session-actions">
+                    <button class="btn btn-primary">Entrar na chamada</button>
+                    <button class="btn btn-outline-danger">Cancelar sessão</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="session-group">
+            <h3 class="group-title">Solicitações enviadas</h3>
+            
+            <div class="card session-card">
+                <div class="session-header">
+                    <div class="status-badge badge-pending">⏳ Aguardando resposta</div>
+                    <span class="session-date">Enviada há 2 horas</span>
+                </div>
+                
+                <div class="session-body">
+                    <div class="mentor-info">
+                        <div class="avatar-circle avatar-coral">MC</div>
+                        <div>
+                            <h4 class="mentor-name">Marina Costa</h4>
+                            <p class="skill-name">Fotografia analógica</p>
+                        </div>
+                    </div>
+                    
+                    <div class="session-details">
+                        <span class="detail-item">📍 Presencial (Café Central)</span>
+                        <span class="detail-item">📅 Sugestão: 15/11, 10:00</span>
+                    </div>
+                </div>
+                
+                <div class="session-actions">
+                    <button class="btn btn-danger">Cancelar solicitação</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
