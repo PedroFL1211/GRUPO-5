@@ -3,7 +3,7 @@
     <span class="avatar" aria-hidden="true">{{ item.usuario.nome|slice:":1"|upper }}</span>
     <div>
       <p class="nome">{{ item.usuario.nome }}</p>
-      <p class="usuario">@{{ item.usuario.username }}</p>
+      <p class="usuario">@{{ item.usuario.user.username }}</p>
     </div>
   </div>
   <dl class="trocas">
