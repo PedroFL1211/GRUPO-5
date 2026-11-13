@@ -2,5 +2,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chat | Desenrola</title><link rel="stylesheet" href="{% static 'chat/chat.css' %}"></head>
-<body><main class="painel"><header><a class="marca" href="{% url 'chat:lista' %}">Desenrola</a><span>Olá, {{ request.user.username }}</span></header>{% block conteudo %}{% endblock %}</main></body>
+<body><main class="painel"><header><a class="marca" href="{% url 'home' %}">Desenrola</a><nav><a href="{% url 'chat:lista' %}">Mensagens</a> · <a href="{% url 'home' %}">Voltar ao site</a></nav><span>Olá, {{ request.user.username }}</span></header>{% block conteudo %}{% endblock %}</main></body>
 </html>

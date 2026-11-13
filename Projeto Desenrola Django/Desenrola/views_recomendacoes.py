@@ -9,7 +9,7 @@ from .recomendacoes import recomendar
 @login_required
 def recomendacoes(request):
     # O login do Django e o Usuario do Desenrola compartilham o mesmo username
-    usuario = Usuario.objects.filter(username=request.user.username).first()
+    usuario = Usuario.objects.filter(user=request.user).first()
 
     contexto = {"usuario": usuario}
     if usuario is not None:

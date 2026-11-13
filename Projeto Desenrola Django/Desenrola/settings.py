@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Desenrola',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,6 @@ USE_X_FORWARDED_HOST = True
 CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_USE_SESSIONS = True
+]
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

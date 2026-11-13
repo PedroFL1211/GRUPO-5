@@ -35,31 +35,12 @@
             <form method="POST" action="{% url 'reportar' %}">
                 {% csrf_token %}
                 
-                <div class="form-row">
-                    <div class="input-group">
-                        <label>O que você está denunciando?</label>
-                        <select name="tipo" required>
-                            <option value="" disabled selected>Selecione uma opção</option>
-                            <option value="usuario">Comportamento de um usuário</option>
-                            <option value="habilidade">Uma habilidade inadequada</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Nome do usuário ou habilidade</label>
-                        <input type="text" name="alvo" required placeholder="Ex: João Silva ou 'Hackear redes'">
-                    </div>
-                </div>
-
+                {{ form.non_field_errors }}
+                {% for field in form %}
                 <div class="input-group full-width">
-                    <label>Motivo principal</label>
-                    <input type="text" name="motivo" required placeholder="Ex: Linguagem ofensiva, conteúdo falso...">
+                    {{ field.label_tag }}{{ field }}{{ field.errors }}
                 </div>
-
-                <div class="input-group full-width">
-                    <label>Descreva o que aconteceu em detalhes</label>
-                    <textarea name="descricao" rows="4" required></textarea>
-                </div>
+                {% endfor %}
 
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">Enviar denúncia</button>
@@ -67,5 +48,6 @@
             </form>
         </section>
     </main>
+    {% include "_rodape.html" %}
 </body>
 </html>

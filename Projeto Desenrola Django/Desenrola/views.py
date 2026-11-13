@@ -45,23 +45,13 @@ def home(request):
     return render(request, 'home.html')    
 
 def reportar(request):
-    if request.method == 'POST':
-        tipo = request.POST.get('tipo')
-        alvo = request.POST.get('alvo')
-        motivo = request.POST.get('motivo')
-        descricao = request.POST.get('descricao')
-        
-        Denuncia.objects.create(
-            tipo=tipo,
-            alvo=alvo,
-            motivo=motivo,
-            descricao=descricao
-        )
-        
-        messages.success(request, 'Sua denúncia foi registrada com sucesso e será analisada pela equipe.')
+    from .forms_denuncias import DenunciaForm
+    form = DenunciaForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Sua denúncia foi registrada e será analisada pela equipe.')
         return redirect('reportar')
-        
-    return render(request, 'denuncia.html')
+    return render(request, 'denuncia.html', {'form': form})
 
 # PERFIL PÚBLICO
 # Dados de EXEMPLO. Quando os models Habilidade e Avaliacao existirem,

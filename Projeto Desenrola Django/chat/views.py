@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 from .forms import MensagemForm
 from .models import Mensagem
 
-@login_required
+@login_required(login_url='login')
 @require_http_methods(["GET"])
 def lista(request):
     usuarios = get_user_model().objects.filter(is_active=True).exclude(pk=request.user.pk).order_by("username")

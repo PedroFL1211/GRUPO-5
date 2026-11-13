@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Moderação — Desenrola</title><link rel="stylesheet" href="{% static 'css/denuncia.css' %}"><link rel="stylesheet" href="{% static 'css/moderacao.css' %}"></head>
+<body><nav class="topbar"><a class="btn-back" href="{% url 'home' %}">❮ Desenrola</a><h1 class="page-title">Moderação de denúncias</h1></nav>
+<main class="container">
+{% for message in messages %}<p role="status" class="aviso {{ message.tags }}">{{ message }}</p>{% endfor %}
+<section class="card"><h2>Denúncias da comunidade</h2><p>Analise o relato antes de alterar o status ou remover o alvo. As ações ficam registradas no histórico.</p>
+<form method="get"><label for="filtro">Filtrar por status</label><select id="filtro" name="status"><option value="">Todos</option>{% for valor, nome in status_choices %}<option value="{{ valor }}" {% if status == valor %}selected{% endif %}>{{ nome }}</option>{% endfor %}</select><button type="submit" class="btn-submit">Filtrar</button></form></section>
+{% for denuncia in pagina %}
+<article class="card"><header class="resumo"><h2>#{{ denuncia.pk }} · {{ denuncia.get_tipo_display }}</h2><span class="badge">{{ denuncia.get_status_display }}</span></header>
+<p><strong>Alvo:</strong> {{ denuncia.alvo }}</p><p><strong>Motivo:</strong> {{ denuncia.motivo }}</p><div class="relato">{{ denuncia.descricao|linebreaksbr }}</div><p class="data">Registrada em {{ denuncia.data_registro|date:'d/m/Y H:i' }}</p>
+<form class="acoes" method="post" action="{% url 'moderacao_status' denuncia.pk %}">{% csrf_token %}<label for="status-{{ denuncia.pk }}">Status</label><select id="status-{{ denuncia.pk }}" name="status">{% for valor, nome in status_choices %}<option value="{{ valor }}" {% if denuncia.status == valor %}selected{% endif %}>{{ nome }}</option>{% endfor %}</select><button class="btn-submit">Salvar status</button></form>
+{% if denuncia.usuario_alvo_id and denuncia.status != 'resolvida' %}
+<details class="remocao"><summary>Remover {{ denuncia.get_tipo_display|lower }} denunciado</summary><p>Esta ação é permanente. {% if denuncia.tipo == 'usuario' %}O perfil e o login serão excluídos, incluindo dados relacionados conforme as regras do banco.{% else %}A habilidade será retirada apenas do usuário denunciado.{% endif %}</p><form method="post" action="{% url 'moderacao_remover' denuncia.pk %}">{% csrf_token %}<label><input type="checkbox" name="confirmar" value="sim" required> Confirmo a remoção deste alvo.</label><button class="perigo">Remover e resolver denúncia</button></form></details>
+{% elif not denuncia.usuario_alvo_id %}<p>Alvo sem vínculo ou já removido. A remoção não está disponível.</p>{% endif %}
+<details><summary>Histórico de moderação</summary><ul>{% for evento in denuncia.eventos.all %}<li>{{ evento.criado_em|date:'d/m/Y H:i' }} · {{ evento.moderador.username|default:'Conta removida' }} — {{ evento.descricao }}</li>{% empty %}<li>Nenhuma ação registrada.</li>{% endfor %}</ul></details></article>
+{% empty %}<section class="card"><p>Nenhuma denúncia encontrada.</p></section>{% endfor %}
+<nav aria-label="Paginação">{% if pagina.has_previous %}<a href="?status={{ status }}&page={{ pagina.previous_page_number }}">Anterior</a>{% endif %} Página {{ pagina.number }} de {{ pagina.paginator.num_pages }} {% if pagina.has_next %}<a href="?status={{ status }}&page={{ pagina.next_page_number }}">Próxima</a>{% endif %}</nav>
+</main>    {% include "_rodape.html" %}
+</body></html>
