@@ -1,0 +1,18 @@
+<li class="cartao">
+  <div class="pessoa">
+    <span class="avatar" aria-hidden="true">{{ item.usuario.nome|slice:":1"|upper }}</span>
+    <div>
+      <p class="nome">{{ item.usuario.nome }}</p>
+      <p class="usuario">@{{ item.usuario.username }}</p>
+    </div>
+  </div>
+  <dl class="trocas">
+    {% if item.voce_aprende %}
+      <div><dt>Ensina para você</dt><dd>{{ item.voce_aprende|join:", " }}</dd></div>
+    {% endif %}
+    {% if item.voce_ensina %}
+      <div><dt>Quer aprender com você</dt><dd>{{ item.voce_ensina|join:", " }}</dd></div>
+    {% endif %}
+  </dl>
+</li>
+{% include "_rodape.html" %}
