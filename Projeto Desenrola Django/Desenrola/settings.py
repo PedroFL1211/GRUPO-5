@@ -141,6 +141,15 @@ CSRF_TRUSTED_ORIGINS = [
     'https://localhost:8000', 
     'http://localhost:8000',
     'https://*.github.dev',
+    'https://*.app.github.dev',
+    'http://127.0.0.1:8000',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = True
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

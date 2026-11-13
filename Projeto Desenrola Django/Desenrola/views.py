@@ -229,15 +229,13 @@ def excluir_conta_view(request):
         senha_digitada = request.POST.get('senha')
         user = request.user
         
-        # Verifica se a senha fornecida bate com a do banco
         if user.check_password(senha_digitada):
-            user.delete() # Exclui os dados em cascata
-            logout(request)
+            logout(request) # 1º Encerra a sessão e limpa os tokens
+            user.delete()   # 2º Apaga o usuário do banco
             return redirect('home')
         else:
             erro = "Senha incorreta. Tente novamente."
             
-    # O Django agora vai procurar o arquivo remocao.html
     return render(request, 'remocao.html', {'erro': erro})
 
 def sair_view(request):
