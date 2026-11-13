@@ -67,12 +67,13 @@ def remover_alvo(request, pk):
         messages.error(request, 'Alvo sem vínculo ou já removido. Nenhum registro foi alterado.')
         return redirect('moderacao_denuncias')
     if denuncia.tipo == 'usuario':
-        login = User.objects.select_for_update().filter(username=usuario.username).first()
+        login = User.objects.select_for_update().filter(pk=usuario.user_id).first()
         if login and (login.pk == request.user.pk or login.is_staff or login.is_superuser):
             messages.error(request, 'Contas de moderação não podem ser removidas por este painel.')
             return redirect('moderacao_denuncias')
-        descricao = f'Usuário @{usuario.username} removido.'
-        # O login e o perfil usam o mesmo username no cadastro existente.
+        username = login.username if login else usuario.nome
+        descricao = f'Usuário @{username} removido.'
+        # O perfil Usuario referencia diretamente a conta auth.User por user.
         if login:
             login.delete()
         usuario.delete()
@@ -84,7 +85,7 @@ def remover_alvo(request, pk):
         partes = re.split(r'[,;/]', usuario.habilidadeEnsina)
         usuario.habilidadeEnsina = ', '.join(parte.strip() for parte in partes if parte.strip() and normalizar(parte) != chave)
         usuario.save(update_fields=['habilidadeEnsina'])
-        descricao = f'Habilidade {denuncia.habilidade_alvo} removida de @{usuario.username}.'
+        descricao = f'Habilidade {denuncia.habilidade_alvo} removida de @{usuario.user.username if usuario.user_id else usuario.nome}.'
     else:
         return HttpResponseBadRequest('Alvo inválido.')
     denuncia.status = 'resolvida'
