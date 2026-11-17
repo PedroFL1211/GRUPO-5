@@ -13,6 +13,8 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
+from django.utils.http import url_has_allowed_host_and_scheme
+from .models import Favorito
 
 
 # CADASTRO: salva um usuário novo no banco
@@ -356,3 +358,56 @@ def remover_alvo(request, pk):
     EventoModeracao.objects.create(denuncia=denuncia, moderador=request.user, descricao=descricao)
     messages.success(request, descricao)
     return redirect('moderacao_denuncias')
+
+# ---------- HABILIDADES FAVORITAS ----------
+
+def perfil_do_usuario(request):
+    """Devolve o Usuario do Desenrola ligado ao login (cria se ainda não existir)."""
+    usuario, _ = Usuario.objects.get_or_create(user=request.user, defaults={'nome': request.user.username})
+    return usuario
+
+
+@login_required(login_url='login')
+def lista_habilidades(request):
+    """Habilidades que as outras pessoas ensinam, com botão de favoritar."""
+    usuario = perfil_do_usuario(request)
+    habilidades = (Habilidade.objects.filter(tipo='ensinar')
+                   .exclude(usuario=usuario)
+                   .select_related('usuario')
+                   .order_by('nome', 'usuario__nome'))
+    favoritas = set(Favorito.objects.filter(usuario=usuario).values_list('habilidade_id', flat=True))
+    habilidades = list(habilidades)
+    for habilidade in habilidades:
+        habilidade.favorita = habilidade.pk in favoritas
+    return render(request, 'lista_habilidades.html', {'habilidades': habilidades})
+
+
+@login_required(login_url='login')
+def habilidades_favoritas(request):
+    """Cards das habilidades salvas pelo usuário."""
+    usuario = perfil_do_usuario(request)
+    favoritos = Favorito.objects.filter(usuario=usuario).select_related('habilidade__usuario')
+    return render(request, 'favoritas.html', {'favoritos': favoritos})
+
+
+@login_required(login_url='login')
+@require_POST
+def alternar_favorito(request, pk):
+    """Favorita a habilidade; se já era favorita, remove."""
+    usuario = perfil_do_usuario(request)
+    habilidade = get_object_or_404(Habilidade, pk=pk, tipo='ensinar')
+
+    if habilidade.usuario_id == usuario.pk:
+        messages.error(request, 'Você não pode favoritar a sua própria habilidade.')
+    else:
+        favorito, criado = Favorito.objects.get_or_create(usuario=usuario, habilidade=habilidade)
+        if criado:
+            messages.success(request, f'"{habilidade.nome}" foi para as suas favoritas.')
+        else:
+            favorito.delete()
+            messages.success(request, f'"{habilidade.nome}" foi removida das favoritas.')
+
+    destino = request.POST.get('next', '')
+    if not url_has_allowed_host_and_scheme(destino, allowed_hosts={request.get_host()}):
+        destino = 'lista_habilidades'
+    return redirect(destino)

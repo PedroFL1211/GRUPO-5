@@ -1,0 +1,173 @@
+/* Telas "Habilidades" e "Habilidades Favoritadas".
+   Este arquivo é independente: não depende do perfil.css nem do sessoes.css. */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --fav-petroleo-escuro: #053640;
+    --fav-petroleo: #0E6E82;
+    --fav-petroleo-vibrante: #189CB5;
+    --fav-coral: #D85A30;
+    --fav-coral-escuro: #993C1D;
+    --fav-coral-claro: #FAECE7;
+    --fav-bege: #F1EFE8;
+    --fav-branco: #FFFFFF;
+    --fav-texto: #2C2C2A;
+    --fav-texto-suave: #5F5E5A;
+    --fav-verde: #2A7E46;
+    --fav-verde-fundo: #E6F4EA;
+    --fav-erro: #A32D2D;
+    --fav-fonte-titulo: 'Fredoka', sans-serif;
+    --fav-fonte: 'Nunito', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--fav-bege);
+    font-family: var(--fav-fonte);
+    color: var(--fav-texto);
+}
+
+/* ---------- Barra do topo (mesmo padrão das outras telas) ---------- */
+.fav-navbar {
+    background-color: var(--fav-petroleo);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+.fav-navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+.fav-navbar-botao {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    border: 2px solid #fff;
+    border-radius: 24px;
+    font-size: 0.95rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+.fav-navbar-botao:hover { background-color: #fff; color: var(--fav-petroleo) !important; }
+.fav-navbar a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* ---------- Conteúdo ---------- */
+.fav-pagina {
+    max-width: 1000px;
+    margin: 32px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.fav-cabecalho h1 {
+    font-family: var(--fav-fonte-titulo);
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--fav-petroleo-escuro);
+    margin-bottom: 6px;
+}
+.fav-cabecalho p { color: var(--fav-texto-suave); }
+
+.fav-mensagens { display: flex; flex-direction: column; gap: 8px; }
+.fav-alerta { padding: 14px 18px; border-radius: 8px; font-weight: 700; }
+.fav-alerta.success { background-color: var(--fav-verde-fundo); color: var(--fav-verde); }
+.fav-alerta.error { background-color: var(--fav-coral-claro); color: var(--fav-erro); }
+
+/* ---------- Cards ---------- */
+.fav-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.fav-card {
+    background-color: var(--fav-branco);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(5, 54, 64, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.fav-card-topo { display: flex; align-items: center; gap: 14px; }
+.fav-avatar {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--fav-petroleo);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fav-fonte-titulo);
+    font-size: 1.3rem;
+}
+.fav-nome {
+    font-family: var(--fav-fonte-titulo);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--fav-petroleo-escuro);
+}
+.fav-por { font-size: 0.9rem; color: var(--fav-texto-suave); }
+.fav-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 0.9rem;
+    color: var(--fav-texto-suave);
+    font-weight: 600;
+}
+
+.fav-botao {
+    width: 100%;
+    padding: 12px;
+    border-radius: 24px;
+    font-family: var(--fav-fonte);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--fav-coral);
+    color: var(--fav-coral);
+    transition: background-color 0.15s, color 0.15s;
+}
+.fav-botao:hover { background-color: var(--fav-coral-claro); }
+.fav-botao-ativo { background-color: var(--fav-coral); color: #fff; }
+.fav-botao-ativo:hover { background-color: var(--fav-coral-escuro); }
+.fav-botao:focus-visible { outline: 3px solid var(--fav-petroleo-vibrante); outline-offset: 3px; }
+
+/* ---------- Estado vazio ---------- */
+.fav-vazio {
+    background-color: var(--fav-branco);
+    border-radius: 16px;
+    padding: 40px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.fav-vazio h2 { font-family: var(--fav-fonte-titulo); color: var(--fav-petroleo-escuro); }
+.fav-vazio p { color: var(--fav-texto-suave); }
+.fav-vazio-botao {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 12px 28px;
+    border-radius: 24px;
+    background-color: var(--fav-coral);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+.fav-vazio-botao:hover { background-color: var(--fav-coral-escuro); }
+
+@media (max-width: 768px) {
+    .fav-navbar { padding: 14px 16px; }
+    .fav-grid { grid-template-columns: 1fr; }
+    .fav-cabecalho h1 { font-size: 1.6rem; }
+}

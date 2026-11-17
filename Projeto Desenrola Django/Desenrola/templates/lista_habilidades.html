@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidades - Desenrola</title>
+    <link rel="stylesheet" href="{% static 'css/favoritas.css' %}">
+</head>
+<body>
+    <nav class="fav-navbar">
+        <a href="{% url 'home' %}">❮ Voltar</a>
+        <a href="{% url 'habilidades_favoritas' %}" class="fav-navbar-botao">★ Minhas favoritas</a>
+    </nav>
+
+    <main class="fav-pagina">
+        <header class="fav-cabecalho">
+            <h1>Habilidades</h1>
+            <p>Veja o que as outras pessoas podem ensinar e salve as que mais interessam a você.</p>
+        </header>
+
+        {% if messages %}
+        <div class="fav-mensagens" role="status">
+            {% for message in messages %}
+                <div class="fav-alerta {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if habilidades %}
+        <ul class="fav-grid">
+            {% for hab in habilidades %}
+                {% include "_cartao_habilidade.html" with hab=hab favorita=hab.favorita %}
+            {% endfor %}
+        </ul>
+        {% else %}
+        <section class="fav-vazio">
+            <h2>Ainda não há habilidades de outras pessoas</h2>
+            <p>Quando alguém cadastrar o que sabe ensinar, as habilidades aparecem aqui.</p>
+        </section>
+        {% endif %}
+    </main>
+    {% include "_rodape.html" %}
+</body>
+</html>

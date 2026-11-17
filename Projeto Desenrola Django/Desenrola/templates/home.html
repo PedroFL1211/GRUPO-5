@@ -15,22 +15,31 @@
         <div class="topbar-inner">
             <a href="{% url 'home' %}" class="marca">Desenrola</a>
 
-            <nav class="topbar-links" aria-label="Seções da página">
-                <a href="#como-funciona">Como funciona</a>
-                <a href="#categorias">Habilidades</a>
-                <a href="#convivencia">Convivência</a>
-                <a href="{% url 'reportar' %}">Denunciar</a>
-                {% if user.is_authenticated %}<a href="{% url 'chat:lista' %}">Mensagens</a>{% endif %}
-                {% if user.is_staff %}<a href="{% url 'moderacao_denuncias' %}">Moderação</a>{% endif %}
-            </nav>
+            <!-- Botão do menu (aparece só no celular e no tablet) -->
+            <button type="button" class="menu-toggle" id="menu-toggle"
+                    aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                <span class="menu-toggle-barras" aria-hidden="true"></span>
+            </button>
 
-            <div class="topbar-acoes">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'meu_perfil' %}" class="btn btn-contorno">Meu perfil</a>
-                {% else %}
-                    <a href="/login/" class="btn btn-contorno">Entrar</a>
-                    <a href="/cadastro/" class="btn btn-coral">Cadastre-se</a>
-                {% endif %}
+            <!-- No computador este bloco "some" e links e botões ficam na barra; no celular vira o menu suspenso -->
+            <div class="topbar-menu" id="menu-principal">
+                <nav class="topbar-links" aria-label="Seções da página">
+                    <a href="#como-funciona">Como funciona</a>
+                    <a href="#categorias">Habilidades</a>
+                    <a href="#convivencia">Convivência</a>
+                    <a href="{% url 'reportar' %}">Denunciar</a>
+                    {% if user.is_authenticated %}<a href="{% url 'chat:lista' %}">Mensagens</a>{% endif %}
+                    {% if user.is_staff %}<a href="{% url 'moderacao_denuncias' %}">Moderação</a>{% endif %}
+                </nav>
+
+                <div class="topbar-acoes">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'meu_perfil' %}" class="btn btn-contorno">Meu perfil</a>
+                    {% else %}
+                        <a href="/login/" class="btn btn-contorno">Entrar</a>
+                        <a href="/cadastro/" class="btn btn-coral">Cadastre-se</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>
@@ -190,5 +199,36 @@
     </footer>
 
     {% include "_rodape.html" %}
+
+    <script>
+        // Menu do celular: abre e fecha o menu suspenso
+        (function () {
+            var botao = document.getElementById('menu-toggle');
+            var menu = document.getElementById('menu-principal');
+            if (!botao || !menu) return;
+
+            function definir(aberto) {
+                menu.classList.toggle('aberto', aberto);
+                botao.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+                botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+            }
+
+            botao.addEventListener('click', function () {
+                definir(botao.getAttribute('aria-expanded') !== 'true');
+            });
+            // clicar em um link do menu fecha o menu
+            menu.addEventListener('click', function (e) {
+                if (e.target.closest('a')) definir(false);
+            });
+            // tecla Esc fecha o menu
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') definir(false);
+            });
+            // ao voltar para tela grande, garante o menu fechado
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 900) definir(false);
+            });
+        })();
+    </script>
 </body>
 </html>
