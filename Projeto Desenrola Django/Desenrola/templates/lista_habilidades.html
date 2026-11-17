@@ -19,6 +19,30 @@
             <p>Veja o que as outras pessoas podem ensinar e salve as que mais interessam a você.</p>
         </header>
 
+        <!-- Barra de busca e filtro por categoria -->
+        <form method="get" class="fav-busca" role="search">
+            <div class="fav-busca-campo">
+                <label for="busca-q" class="fav-busca-rotulo">Buscar</label>
+                <input type="search" id="busca-q" name="q" value="{{ busca }}"
+                       placeholder="Habilidade ou nome da pessoa" autocomplete="off">
+            </div>
+            <div class="fav-busca-campo">
+                <label for="busca-categoria" class="fav-busca-rotulo">Categoria</label>
+                <select id="busca-categoria" name="categoria">
+                    <option value="">Todas as categorias</option>
+                    {% for nome in categorias %}
+                        <option value="{{ nome }}"{% if nome == categoria %} selected{% endif %}>{{ nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="fav-busca-acoes">
+                <button type="submit" class="fav-busca-botao">Buscar</button>
+                {% if busca or categoria %}
+                    <a href="{% url 'lista_habilidades' %}" class="fav-busca-limpar">Limpar</a>
+                {% endif %}
+            </div>
+        </form>
+
         {% if messages %}
         <div class="fav-mensagens" role="status">
             {% for message in messages %}
@@ -28,11 +52,18 @@
         {% endif %}
 
         {% if habilidades %}
+        <p class="fav-contagem">{{ habilidades|length }} habilidade{{ habilidades|length|pluralize }} encontrada{{ habilidades|length|pluralize }}</p>
         <ul class="fav-grid">
             {% for hab in habilidades %}
                 {% include "_cartao_habilidade.html" with hab=hab favorita=hab.favorita %}
             {% endfor %}
         </ul>
+        {% elif existem_habilidades %}
+        <section class="fav-vazio">
+            <h2>Nenhuma habilidade encontrada</h2>
+            <p>Tente buscar por outra palavra ou escolher outra categoria.</p>
+            <a href="{% url 'lista_habilidades' %}" class="fav-vazio-botao">Limpar busca</a>
+        </section>
         {% else %}
         <section class="fav-vazio">
             <h2>Ainda não há habilidades de outras pessoas</h2>

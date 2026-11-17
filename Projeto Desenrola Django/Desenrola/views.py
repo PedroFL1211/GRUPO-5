@@ -15,6 +15,7 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.utils.http import url_has_allowed_host_and_scheme
 from .models import Favorito
+from .categorias import NOMES_DAS_CATEGORIAS, categoria_da_habilidade
 
 
 # CADASTRO: salva um usuário novo no banco
@@ -369,24 +370,46 @@ def perfil_do_usuario(request):
 
 @login_required(login_url='login')
 def lista_habilidades(request):
-    """Habilidades que as outras pessoas ensinam, com botão de favoritar."""
+    """Habilidades que as outras pessoas ensinam, com busca e filtro por categoria."""
     usuario = perfil_do_usuario(request)
-    habilidades = (Habilidade.objects.filter(tipo='ensinar')
-                   .exclude(usuario=usuario)
-                   .select_related('usuario')
-                   .order_by('nome', 'usuario__nome'))
+    todas = list(Habilidade.objects.filter(tipo='ensinar')
+                 .exclude(usuario=usuario)
+                 .select_related('usuario')
+                 .order_by('nome', 'usuario__nome'))
     favoritas = set(Favorito.objects.filter(usuario=usuario).values_list('habilidade_id', flat=True))
-    habilidades = list(habilidades)
-    for habilidade in habilidades:
+
+    busca = request.GET.get('q', '').strip()
+    categoria = request.GET.get('categoria', '').strip()
+    if categoria not in NOMES_DAS_CATEGORIAS:
+        categoria = ''
+    termo = normalizar(busca)
+
+    habilidades = []
+    for habilidade in todas:
+        habilidade.categoria = categoria_da_habilidade(habilidade.nome)
         habilidade.favorita = habilidade.pk in favoritas
-    return render(request, 'lista_habilidades.html', {'habilidades': habilidades})
+        if categoria and habilidade.categoria != categoria:
+            continue
+        if termo and termo not in normalizar(habilidade.nome) and termo not in normalizar(habilidade.usuario.nome):
+            continue
+        habilidades.append(habilidade)
+
+    return render(request, 'lista_habilidades.html', {
+        'habilidades': habilidades,
+        'existem_habilidades': bool(todas),
+        'busca': busca,
+        'categoria': categoria,
+        'categorias': NOMES_DAS_CATEGORIAS,
+    })
 
 
 @login_required(login_url='login')
 def habilidades_favoritas(request):
     """Cards das habilidades salvas pelo usuário."""
     usuario = perfil_do_usuario(request)
-    favoritos = Favorito.objects.filter(usuario=usuario).select_related('habilidade__usuario')
+    favoritos = list(Favorito.objects.filter(usuario=usuario).select_related('habilidade__usuario'))
+    for favorito in favoritos:
+        favorito.habilidade.categoria = categoria_da_habilidade(favorito.habilidade.nome)
     return render(request, 'favoritas.html', {'favoritos': favoritos})
 
 

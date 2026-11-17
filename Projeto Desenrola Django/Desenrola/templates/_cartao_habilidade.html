@@ -1,4 +1,4 @@
-<!-- Card de habilidade. Recebe: hab (Habilidade) e favorita (True/False) -->
+<!-- Card de habilidade. Recebe: hab (Habilidade, com .categoria) e favorita (True/False) -->
 <li class="fav-card">
     <div class="fav-card-topo">
         <div class="fav-avatar" aria-hidden="true">{{ hab.usuario.nome|slice:":1"|upper }}</div>
@@ -8,6 +8,8 @@
         </div>
     </div>
 
+    {% if hab.categoria %}<p><span class="fav-categoria">{{ hab.categoria }}</span></p>{% endif %}
+
     <p class="fav-detalhes">
         {% if hab.usuario.cidade %}<span>📍 {{ hab.usuario.cidade }}</span>{% endif %}
         <span>🤝 {{ hab.usuario.formato_troca }}</span>
@@ -15,7 +17,7 @@
 
     <form method="post" action="{% url 'alternar_favorito' hab.pk %}">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.path }}">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
         {% if favorita %}
             <button type="submit" class="fav-botao fav-botao-ativo" aria-pressed="true">★ Favoritada</button>
         {% else %}

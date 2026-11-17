@@ -166,8 +166,62 @@ body {
 }
 .fav-vazio-botao:hover { background-color: var(--fav-coral-escuro); }
 
+/* ---------- Busca e filtro ---------- */
+.fav-busca {
+    background-color: var(--fav-branco);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(5, 54, 64, 0.06);
+    display: grid;
+    grid-template-columns: 2fr 1.4fr auto;
+    gap: 16px;
+    align-items: end;
+}
+.fav-busca-campo { display: flex; flex-direction: column; gap: 6px; }
+.fav-busca-rotulo { font-weight: 700; font-size: 0.9rem; color: var(--fav-petroleo-escuro); }
+.fav-busca input,
+.fav-busca select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #D1D0C9;
+    border-radius: 10px;
+    font-family: var(--fav-fonte);
+    font-size: 1rem;
+    color: var(--fav-texto);
+    background-color: var(--fav-branco);
+}
+.fav-busca input:focus,
+.fav-busca select:focus { outline: 2px solid var(--fav-petroleo); border-color: transparent; }
+.fav-busca-acoes { display: flex; align-items: center; gap: 14px; }
+.fav-busca-botao {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--fav-petroleo);
+    color: #fff;
+    font-family: var(--fav-fonte);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.fav-busca-botao:hover { background-color: var(--fav-petroleo-escuro); }
+.fav-busca-botao:focus-visible { outline: 3px solid var(--fav-petroleo-vibrante); outline-offset: 3px; }
+.fav-busca-limpar { color: var(--fav-petroleo); font-weight: 700; }
+.fav-contagem { color: var(--fav-texto-suave); font-weight: 600; }
+.fav-categoria {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    background-color: #A6DEE9;
+    color: var(--fav-petroleo-escuro);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
 @media (max-width: 768px) {
     .fav-navbar { padding: 14px 16px; }
     .fav-grid { grid-template-columns: 1fr; }
+    .fav-busca { grid-template-columns: 1fr; padding: 18px; }
+    .fav-busca-botao { flex: 1; }
     .fav-cabecalho h1 { font-size: 1.6rem; }
 }
