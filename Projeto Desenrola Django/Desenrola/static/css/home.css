@@ -90,6 +90,10 @@ a { color: inherit; }
 .topbar-links a:hover { color: var(--azul-petroleo-base); }
 .topbar-acoes { display: flex; gap: 10px; }
 
+/* No computador o menu é só um "agrupador" invisível: links e botões ficam direto na barra */
+.topbar-menu { display: contents; }
+.menu-toggle { display: none; }
+
 /* ---------- HERO ---------- */
 .hero {
   max-width: 1080px;
@@ -258,6 +262,7 @@ a { color: inherit; }
 
 /* ---------- CHAMADA FINAL ---------- */
 .chamada-final {
+  width: calc(100% - 32px);
   max-width: 1032px;
   margin: 0 auto 72px;
   padding: 56px 24px;
@@ -286,10 +291,71 @@ a { color: inherit; }
 
 /* ---------- RESPONSIVO ---------- */
 @media (max-width: 900px) {
+  /* ---- Menu suspenso do celular e do tablet ---- */
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-left: auto;
+    background: transparent;
+    border: 2px solid var(--azul-petroleo-base);
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .menu-toggle:focus-visible { outline: 3px solid var(--azul-petroleo-vibrante); outline-offset: 3px; }
+  /* ícone de hambúrguer desenhado com 3 barras */
+  .menu-toggle-barras,
+  .menu-toggle-barras::before,
+  .menu-toggle-barras::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--azul-petroleo-base);
+    border-radius: 2px;
+    transition: transform .2s, background-color .2s;
+  }
+  .menu-toggle-barras { position: relative; }
+  .menu-toggle-barras::before, .menu-toggle-barras::after { content: ""; position: absolute; left: 0; }
+  .menu-toggle-barras::before { top: -6px; }
+  .menu-toggle-barras::after { top: 6px; }
+  /* vira um X quando o menu está aberto */
+  .menu-toggle[aria-expanded="true"] .menu-toggle-barras { background: transparent; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-barras::before { top: 0; transform: rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-barras::after { top: 0; transform: rotate(-45deg); }
+
+  .topbar-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 24px 24px;
+    background: var(--fundo-secundario);
+    border-bottom: 1px solid rgba(14, 110, 130, .15);
+    box-shadow: 0 12px 24px rgba(5, 54, 64, .12);
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+  }
+  .topbar-menu.aberto { display: flex; }
+
+  .topbar-links { flex-direction: column; gap: 0; }
+  .topbar-links a {
+    padding: 14px 4px;
+    font-size: 17px;
+    border-bottom: 1px solid rgba(14, 110, 130, .12);
+  }
+  .topbar-acoes { flex-direction: column; gap: 10px; }
+  .topbar-acoes .btn { width: 100%; padding: 14px 20px; }
+
+  /* ---- Cards e seções ---- */
   .hero { grid-template-columns: 1fr; padding-top: 40px; }
   .passos { grid-template-columns: repeat(2, 1fr); }
   .valores { grid-template-columns: 1fr; }
-  .topbar-links { display: none; }
 }
 @media (max-width: 480px) {
   .passos { grid-template-columns: 1fr; }

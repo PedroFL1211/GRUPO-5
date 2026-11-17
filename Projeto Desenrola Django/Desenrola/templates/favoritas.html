@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidades Favoritadas - Desenrola</title>
+    <link rel="stylesheet" href="{% static 'css/favoritas.css' %}">
+</head>
+<body>
+    <nav class="fav-navbar">
+        <a href="{% url 'lista_habilidades' %}">❮ Habilidades</a>
+        <a href="{% url 'home' %}" class="fav-navbar-botao">Início</a>
+    </nav>
+
+    <main class="fav-pagina">
+        <header class="fav-cabecalho">
+            <h1>Habilidades Favoritadas</h1>
+            <p>As habilidades que você salvou para trocar depois.</p>
+        </header>
+
+        {% if messages %}
+        <div class="fav-mensagens" role="status">
+            {% for message in messages %}
+                <div class="fav-alerta {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if favoritos %}
+        <ul class="fav-grid">
+            {% for favorito in favoritos %}
+                {% include "_cartao_habilidade.html" with hab=favorito.habilidade favorita=True %}
+            {% endfor %}
+        </ul>
+        {% else %}
+        <section class="fav-vazio">
+            <h2>Você ainda não favoritou nenhuma habilidade</h2>
+            <p>Na lista de habilidades, toque em <strong>☆ Favoritar</strong> para guardar as que interessam.</p>
+            <a href="{% url 'lista_habilidades' %}" class="fav-vazio-botao">Ver habilidades</a>
+        </section>
+        {% endif %}
+    </main>
+    {% include "_rodape.html" %}
+</body>
+</html>

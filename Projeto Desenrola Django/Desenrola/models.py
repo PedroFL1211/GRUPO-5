@@ -81,3 +81,17 @@ class Notificacao(models.Model):
 
     def __str__(self):
         return f"{self.get_tipo_display()} para {self.usuario}"
+
+class Favorito(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='favoritos')
+    habilidade = models.ForeignKey(Habilidade, on_delete=models.CASCADE, related_name='favoritada_por')
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-criado_em']
+        constraints = [
+            models.UniqueConstraint(fields=['usuario', 'habilidade'], name='um_favorito_por_habilidade'),
+        ]
+
+    def __str__(self):
+        return f"{self.usuario} favoritou {self.habilidade.nome}"
