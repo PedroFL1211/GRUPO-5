@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Sessões - Desenrola</title>
-    <!-- Adicione o ?v=2 aqui para limpar o cache -->
-    <link rel="stylesheet" href="{% static 'css/sessoes.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/sessoes.css' %}?v=3">
 </head>
 <body>
     <nav class="navbar-top">
@@ -14,73 +13,132 @@
         <h2>Minhas sessões</h2>
     </nav>
 
-    <main class="container">
-        <div class="page-header">
-            <h2>Acompanhe suas trocas</h2>
-            <p>Gerencie as habilidades que você está aprendendo com outros usuários.</p>
+    <main class="sessoes-container">
+        <!-- Cabeçalho + Botão de Nova Sessão -->
+        <div class="sessoes-header">
+            <h3>Suas trocas agendadas</h3>
+            <button type="button" class="btn-nova-sessao" onclick="toggleFormulario()">+ Agendar sessão</button>
         </div>
 
-        <section class="session-group">
-            <h3 class="group-title">Sessões confirmadas</h3>
-            
-            <div class="card session-card">
-                <div class="session-header">
-                    <div class="status-badge badge-success">✓ Confirmada</div>
-                    <span class="session-date">Amanhã, 14:30</span>
-                </div>
-                
-                <div class="session-body">
-                    <div class="mentor-info">
-                        <div class="avatar-circle avatar-teal">TM</div>
-                        <div>
-                            <h4 class="mentor-name">Thiago Mendes</h4>
-                            <p class="skill-name">Inglês — conversação</p>
-                        </div>
+        <!-- Formulário ocultável para agendar nova sessão -->
+        <section id="form-nova-sessao" class="card-form" style="display: none;">
+            <h4>Agendar nova troca</h4>
+            <form method="POST" action="{% url 'sessoes' %}">
+                {% csrf_token %}
+                <input type="hidden" name="acao" value="criar">
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Com quem?</label>
+                        <select name="convidado_id" required>
+                            <option value="" disabled selected>Selecione um usuário</option>
+                            {% for u in outros_usuarios %}
+                                <option value="{{ u.id }}">{{ u.nome }} ({{ u.cidade|default:"Sem cidade" }})</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    
-                    <div class="session-details">
-                        <span class="detail-item">💻 Online (Google Meet)</span>
-                        <span class="detail-item">⏱️ Duração: 1h</span>
+
+                    <div class="input-group">
+                        <label>Habilidade</label>
+                        <input type="text" name="habilidade" placeholder="Ex: Violão, Python, Culinária..." required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Data e Hora</label>
+                        <input type="datetime-local" name="data_hora" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Formato</label>
+                        <select name="formato" required>
+                            <option value="Online">Online</option>
+                            <option value="Presencial">Presencial</option>
+                        </select>
                     </div>
                 </div>
-                
-                <div class="session-actions">
-                    <button class="btn btn-primary">Entrar na chamada</button>
-                    <button class="btn btn-outline-danger">Cancelar sessão</button>
+
+                <div class="input-group" style="margin-top: 12px;">
+                    <label>Link da reunião ou Local (opcional)</label>
+                    <input type="text" name="local_ou_link" placeholder="Ex: Google Meet ou Biblioteca Central">
                 </div>
-            </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secundario" onclick="toggleFormulario()">Cancelar</button>
+                    <button type="submit" class="btn-primario">Enviar convite</button>
+                </div>
+            </form>
         </section>
 
-        <section class="session-group">
-            <h3 class="group-title">Solicitações enviadas</h3>
-            
-            <div class="card session-card">
-                <div class="session-header">
-                    <div class="status-badge badge-pending">⏳ Aguardando resposta</div>
-                    <span class="session-date">Enviada há 2 horas</span>
-                </div>
-                
-                <div class="session-body">
-                    <div class="mentor-info">
-                        <div class="avatar-circle avatar-coral">MC</div>
-                        <div>
-                            <h4 class="mentor-name">Marina Costa</h4>
-                            <p class="skill-name">Fotografia analógica</p>
-                        </div>
+        <!-- Lista de Sessões -->
+        <section class="lista-sessoes">
+            {% for sessao in sessoes %}
+            <article class="card-sessao status-{{ sessao.status }}">
+                <div class="card-topo">
+                    <div>
+                        <span class="badge-formato">{{ sessao.formato }}</span>
+                        <h4>{{ sessao.habilidade }}</h4>
                     </div>
-                    
-                    <div class="session-details">
-                        <span class="detail-item">📍 Presencial (Café Central)</span>
-                        <span class="detail-item">📅 Sugestão: 15/11, 10:00</span>
-                    </div>
+                    <span class="badge-status badge-{{ sessao.status }}">{{ sessao.get_status_display }}</span>
                 </div>
-                
-                <div class="session-actions">
-                    <button class="btn btn-danger">Cancelar solicitação</button>
+
+                <div class="card-info">
+                    <p>
+                        <strong>Parceiro(a):</strong>
+                        {% if sessao.solicitante == usuario_logado %}
+                            {{ sessao.convidado.nome }}
+                        {% else %}
+                            {{ sessao.solicitante.nome }}
+                        {% endif %}
+                    </p>
+                    <p><strong>Data:</strong> {{ sessao.data_hora|date:"d/m/Y \à\s H:i" }}</p>
+                    {% if sessao.local_ou_link %}
+                        <p><strong>Local/Link:</strong> {{ sessao.local_ou_link }}</p>
+                    {% endif %}
                 </div>
+
+                {% if sessao.status == 'pendente' or sessao.status == 'confirmada' %}
+                <div class="card-acoes">
+                    {% if sessao.status == 'pendente' and sessao.convidado == usuario_logado %}
+                    <form method="POST" action="{% url 'sessoes' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="sessao_id" value="{{ sessao.id }}">
+                        <input type="hidden" name="acao" value="confirmar">
+                        <button type="submit" class="btn-acao btn-confirmar">Confirmar</button>
+                    </form>
+                    {% endif %}
+
+                    {% if sessao.status == 'confirmada' %}
+                    <form method="POST" action="{% url 'sessoes' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="sessao_id" value="{{ sessao.id }}">
+                        <input type="hidden" name="acao" value="concluir">
+                        <button type="submit" class="btn-acao btn-concluir">Marcar como concluída</button>
+                    </form>
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'sessoes' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="sessao_id" value="{{ sessao.id }}">
+                        <input type="hidden" name="acao" value="cancelar">
+                        <button type="submit" class="btn-acao btn-cancelar">Cancelar</button>
+                    </form>
+                </div>
+                {% endif %}
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <p>Você ainda não tem nenhuma sessão agendada.</p>
+                <span>Clique em <strong>+ Agendar sessão</strong> para marcar sua primeira troca!</span>
             </div>
+            {% endfor %}
         </section>
     </main>
-    {% include "_rodape.html" %}
+
+    <script>
+        function toggleFormulario() {
+            const form = document.getElementById('form-nova-sessao');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>
