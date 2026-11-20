@@ -95,3 +95,31 @@ class Favorito(models.Model):
 
     def __str__(self):
         return f"{self.usuario} favoritou {self.habilidade.nome}"
+
+class Sessao(models.Model):
+    STATUS_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('confirmada', 'Confirmada'),
+        ('concluida', 'Concluída'),
+        ('cancelada', 'Cancelada'),
+    ]
+
+    FORMATO_CHOICES = [
+        ('Online', 'Online'),
+        ('Presencial', 'Presencial'),
+    ]
+
+    solicitante = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='sessoes_solicitadas')
+    convidado = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='sessoes_recebidas')
+    habilidade = models.CharField(max_length=100)
+    data_hora = models.DateTimeField()
+    formato = models.CharField(max_length=20, choices=FORMATO_CHOICES, default='Online')
+    local_ou_link = models.CharField(max_length=255, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
+    criada_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['data_hora']
+
+    def __str__(self):
+        return f"{self.habilidade} ({self.solicitante.nome} ↔ {self.convidado.nome}) - {self.status}"

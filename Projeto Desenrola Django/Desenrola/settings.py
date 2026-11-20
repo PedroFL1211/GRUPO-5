@@ -138,17 +138,20 @@ LOGIN_REDIRECT_URL = '/'   # Para onde vai após login
 
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
-    'https://localhost:8000', 
-    'http://localhost:8000',
-    'https://*.github.dev',
     'https://*.app.github.dev',
+    'https://*.github.dev',
+    'http://localhost:8000',
+    'https://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://127.0.0.1:8000',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
-CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 CSRF_USE_SESSIONS = True
 
 

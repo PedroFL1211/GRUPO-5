@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Denuncia, Usuario
+from .models import Denuncia, Usuario, Sessao
 
 admin.site.register(Denuncia)
 admin.site.register(Usuario)
+admin.site.register(Sessao)
 from .models import Notificacao
 
 @admin.register(Notificacao)
