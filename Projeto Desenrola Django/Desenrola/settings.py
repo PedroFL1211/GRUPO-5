@@ -127,24 +127,20 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "desenrola@localhost")
+smtp_host = os.environ.get("EMAIL_HOST", "")
+smtp_user = os.environ.get("EMAIL_HOST_USER", "")
+smtp_password = os.environ.get("EMAIL_HOST_PASSWORD", "")
+smtp_port = int(os.environ.get("EMAIL_PORT", "587"))
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", smtp_user or "desenrola@localhost")
 PASSWORD_RESET_TIMEOUT = 3600
-EMAIL_BACKEND = (
-    "django.core.mail.backends.smtp.EmailBackend" if EMAIL_HOST
-    else "django.core.mail.backends.console.EmailBackend"
-)
 MAILERS = {"default": {
-    "BACKEND": EMAIL_BACKEND,
-    **({"HOST": EMAIL_HOST, "PORT": EMAIL_PORT, "USERNAME": EMAIL_HOST_USER,
-        "PASSWORD": EMAIL_HOST_PASSWORD, "USE_TLS": True} if EMAIL_HOST else {}),
+    "BACKEND": "django.core.mail.backends.smtp.EmailBackend" if smtp_host
+    else "django.core.mail.backends.console.EmailBackend",
+    **({"HOST": smtp_host, "PORT": smtp_port, "USERNAME": smtp_user,
+        "PASSWORD": smtp_password, "USE_TLS": True} if smtp_host else {}),
 }}
 PASSWORD_RESET_DOMAIN = os.environ.get("PASSWORD_RESET_DOMAIN", "")
-if EMAIL_HOST and (not PASSWORD_RESET_DOMAIN or not os.environ.get("DJANGO_SECRET_KEY")):
+if smtp_host and (not PASSWORD_RESET_DOMAIN or not os.environ.get("DJANGO_SECRET_KEY")):
     raise ImproperlyConfigured("SMTP requer PASSWORD_RESET_DOMAIN e DJANGO_SECRET_KEY.")
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", SECRET_KEY)
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # Para onde vai após logout
