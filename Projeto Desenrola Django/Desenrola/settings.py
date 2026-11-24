@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,11 +127,26 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    "default": {
-        "BACKEND": "django.core.mail.backends.console.EmailBackend",
-    },
-}
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "desenrola@localhost")
+PASSWORD_RESET_TIMEOUT = 3600
+EMAIL_BACKEND = (
+    "django.core.mail.backends.smtp.EmailBackend" if EMAIL_HOST
+    else "django.core.mail.backends.console.EmailBackend"
+)
+MAILERS = {"default": {
+    "BACKEND": EMAIL_BACKEND,
+    **({"HOST": EMAIL_HOST, "PORT": EMAIL_PORT, "USERNAME": EMAIL_HOST_USER,
+        "PASSWORD": EMAIL_HOST_PASSWORD, "USE_TLS": True} if EMAIL_HOST else {}),
+}}
+PASSWORD_RESET_DOMAIN = os.environ.get("PASSWORD_RESET_DOMAIN", "")
+if EMAIL_HOST and (not PASSWORD_RESET_DOMAIN or not os.environ.get("DJANGO_SECRET_KEY")):
+    raise ImproperlyConfigured("SMTP requer PASSWORD_RESET_DOMAIN e DJANGO_SECRET_KEY.")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", SECRET_KEY)
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # Para onde vai após logout
 LOGIN_URL = '/accounts/login/'       # URL de login (padrão)
 # ATENÇÃO!!! Troque o valor da variável abaixo para que ela seja uma das rotas
