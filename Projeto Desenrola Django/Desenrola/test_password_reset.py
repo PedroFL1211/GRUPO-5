@@ -5,7 +5,7 @@ from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-@override_settings(PASSWORD_RESET_DOMAIN="example.test", EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend", MAILERS={"default": {"BACKEND": "django.core.mail.backends.locmem.EmailBackend"}})
+@override_settings(PASSWORD_RESET_DOMAIN="example.test", MAILERS={"default": {"BACKEND": "django.core.mail.backends.locmem.EmailBackend"}})
 class PasswordResetTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="teste@example.test", email="teste@example.test", password="SenhaAntiga!123")
