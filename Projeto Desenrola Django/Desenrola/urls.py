@@ -22,7 +22,14 @@ from . import views
 from django.contrib.auth import urls as auth_urls
 from django.urls import include
 
+from .password_reset import DesenrolaPasswordResetView
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
+    path('accounts/password_reset/', DesenrolaPasswordResetView.as_view(), name='password_reset'),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('accounts/', include(auth_urls)),
     path('chat/', include('chat.urls')),
     path('moderacao/denuncias/', views.painel, name='moderacao_denuncias'),

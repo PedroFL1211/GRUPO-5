@@ -1,0 +1,9 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recuperar senha - Desenrola</title>
+<link rel="stylesheet" href="{% static 'css/auth.css' %}"></head>
+<body><main class="auth-container"><div class="auth-header"><a class="btn-back-link" href="{% url 'login' %}">❮ Voltar ao login</a></div>
+<div class="auth-card"><img src="{% static 'img/logo desenrola.jpeg' %}" alt="Logo Desenrola" class="auth-logo">
+{% block content %}{% endblock %}</div></main>{% include "_rodape.html" %}</body></html>
