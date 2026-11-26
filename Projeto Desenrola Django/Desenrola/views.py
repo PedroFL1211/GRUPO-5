@@ -201,6 +201,7 @@ def editar_perfil_view(request):
             perfil.cidade = request.POST.get('cidade')
             perfil.bio = request.POST.get('bio')
             perfil.formato_troca = request.POST.get('formato_troca')
+            perfil.whatsapp = request.POST.get('whatsapp', '').strip()
             perfil.save()
             
             # 2. Limpa as habilidades antigas e salva as novas baseadas na tela
@@ -480,6 +481,11 @@ def sessoes_view(request):
     sessoes = Sessao.objects.filter(
         Q(solicitante=usuario_logado) | Q(convidado=usuario_logado)
     )
+    sessoes = list(sessoes.select_related('solicitante', 'convidado'))
+    for sessao in sessoes:
+        parceiro = sessao.convidado if sessao.solicitante == usuario_logado else sessao.solicitante
+        sessao.contato_liberado = sessao.status in ('confirmada', 'concluida')
+        sessao.whatsapp_parceiro = parceiro.link_whatsapp if sessao.contato_liberado else ''
     outros_usuarios = Usuario.objects.exclude(id=usuario_logado.id)
 
     return render(request, 'sessoes.html', {
