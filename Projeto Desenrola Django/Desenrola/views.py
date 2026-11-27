@@ -1,9 +1,10 @@
+# Importações de atalhos, autenticação, modelos, utilitários e decoradores do Django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Usuario, Habilidade, Denuncia, EventoModeracao, Sessao
+from .models import Usuario, Habilidade, Denuncia, EventoModeracao
 from django.contrib import messages
 from .recomendacoes import recomendar, normalizar, separar_habilidades
 from functools import wraps
@@ -16,16 +17,17 @@ from django.views.decorators.http import require_POST
 from django.utils.http import url_has_allowed_host_and_scheme
 from .models import Favorito
 from .categorias import NOMES_DAS_CATEGORIAS, categoria_da_habilidade
-from django.db.models import Q
 
 
-# CADASTRO: salva um usuário novo no banco
+# CADASTRO: salva um usuário novo no banco (versão legada/alternativa usando username e campos de texto)
 def cadastrarUsuario(request):
     erro = ""
     if request.method == "POST":
+        # Verifica se já existe um usuário com o mesmo username
         if Usuario.objects.filter(username=request.POST["username"]).exists():
             erro = "Esse usuário já existe"
         else:
+            # Cria o registro no modelo customizado Usuario com senha criptografada
             Usuario.objects.create(
                 nome=request.POST["nome"],
                 username=request.POST["username"],
@@ -33,13 +35,15 @@ def cadastrarUsuario(request):
                 habilidadeEnsina=request.POST["ensina"],
                 habilidadeAprende=request.POST["aprende"],
             )
-            # Cria também o login do Django, com o mesmo username
+            # Cria também o usuário padrão de autenticação do Django, com o mesmo username
             user = User(username=request.POST["username"])
             user.set_password(request.POST["password"])
             user.save()
             return redirect("/usuarios/")
     return render(request, "usuarios/cadastro.html", {"erro": erro})
 
+
+# Views simples que apenas renderizam templates estáticos ou básicos
 def meu_perfil(request):
     return render(request, 'perfil.html')
 
@@ -55,6 +59,8 @@ def erro404(request):
 def home(request):
     return render(request, 'home.html')    
 
+
+# View para registro de denúncias usando ModelForm
 def reportar(request):
     from .forms_denuncias import DenunciaForm
     form = DenunciaForm(request.POST or None)
@@ -64,8 +70,9 @@ def reportar(request):
         return redirect('reportar')
     return render(request, 'denuncia.html', {'form': form})
 
+
 # PERFIL PÚBLICO
-# Dados de EXEMPLO. Quando os models Habilidade e Avaliacao existirem,
+# Dados de EXEMPLO (mock). Quando os models Habilidade e Avaliacao existirem,
 # estes dicionários são trocados por consultas ao banco.
 PERFIS_EXEMPLO = {
     "marina": {
@@ -107,15 +114,18 @@ PERFIS_EXEMPLO = {
 }
  
  
+# Exibe o perfil público de um usuário com base no username (usando os dados de exemplo)
 def perfil_publico(request, username):
     perfil = PERFIS_EXEMPLO.get(username.lower())
     if perfil is None:
         raise Http404("Perfil não encontrado")
  
+    # Formata visualmente as estrelas de cada avaliação
     avaliacoes = perfil["avaliacoes"]
     for av in avaliacoes:
         av["estrelas"] = "★" * av["nota"] + "☆" * (5 - av["nota"])
  
+    # Calcula a quantidade e a média das notas recebidas
     quantidade = len(avaliacoes)
     media = sum(av["nota"] for av in avaliacoes) / quantidade if quantidade else None
  
@@ -129,6 +139,8 @@ def perfil_publico(request, username):
     }
     return render(request, "perfil_publico.html", contexto)
 
+
+# Autentica o usuário usando e-mail (armazenado no campo username) e senha
 def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -145,6 +157,8 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+
+# Cadastra um novo usuário (User do Django + perfil Usuario) e já realiza o login
 def cadastro_view(request):
     erro = None
     if request.method == 'POST':
@@ -156,19 +170,22 @@ def cadastro_view(request):
         if User.objects.filter(username=email).exists():
             erro = "Este e-mail já está cadastrado. Tente fazer login."
         else:
-            # 2. Se não existir, cria o usuário normalmente
+            # 2. Se não existir, cria o usuário no Django e o perfil vinculado
             user = User.objects.create_user(username=email, email=email, password=senha)
             Usuario.objects.create(user=user, nome=nome)
             
-            # 3. Faz o login e redireciona para a home
+            # 3. Faz o login automaticamente e redireciona para a home
             login(request, user)
             return redirect('home')
             
     # Se houver erro ou for o primeiro acesso, renderiza a página de cadastro passando a variável de erro
     return render(request, 'cadastro.html', {'erro': erro})
 
+
+# Exibe o perfil do usuário logado e separa suas habilidades entre ensinar e aprender
 @login_required(login_url='login')
 def meu_perfil_view(request):
+    # Obtém o perfil vinculado ou cria um novo caso ainda não exista
     try:
         perfil = request.user.usuario
     except Usuario.DoesNotExist:
@@ -183,8 +200,10 @@ def meu_perfil_view(request):
         'hab_aprender': hab_aprender
     })
 
+
+# Permite editar dados pessoais e substituir as listas de habilidades do usuário logado
 @login_required(login_url='login')
-@login_required(login_url='login')
+@login_required(login_url='login')  # Decorador duplicado
 def editar_perfil_view(request):
     try:
         perfil = request.user.usuario
@@ -196,18 +215,17 @@ def editar_perfil_view(request):
     
     if request.method == 'POST':
         if 'salvar_perfil' in request.POST:
-            # 1. Salva os dados de texto
+            # 1. Salva os dados de texto do perfil
             perfil.nome = request.POST.get('nome')
             perfil.cidade = request.POST.get('cidade')
             perfil.bio = request.POST.get('bio')
             perfil.formato_troca = request.POST.get('formato_troca')
-            perfil.whatsapp = request.POST.get('whatsapp', '').strip()
             perfil.save()
             
-            # 2. Limpa as habilidades antigas e salva as novas baseadas na tela
+            # 2. Limpa as habilidades antigas e recria as novas baseadas no formulário
             perfil.habilidades.all().delete()
             
-            # Recupera as listas geradas pelo JavaScript
+            # Recupera as listas dinâmicas enviadas pelo formulário/JavaScript
             lista_ensinar = request.POST.getlist('hab_ensinar[]')
             for nome_hab in lista_ensinar:
                 if nome_hab.strip():
@@ -226,10 +244,20 @@ def editar_perfil_view(request):
         'hab_aprender': hab_aprender
     })
 
+
+# Renderiza a página de sessões apenas para usuários autenticados
 @login_required(login_url='login')
 def sessoes_view(request):
     return render(request, 'sessoes.html')
 
+
+# Importações redundantes (já feitas no topo do arquivo)
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+
+# Permite ao usuário logado excluir a própria conta após confirmar a senha
 @login_required(login_url='login')
 def excluir_conta_view(request):
     erro = None
@@ -246,38 +274,50 @@ def excluir_conta_view(request):
             
     return render(request, 'remocao.html', {'erro': erro})
 
+
+# Encerra a sessão do usuário e redireciona para a página inicial
 def sair_view(request):
     logout(request)
     return redirect('home')
 
+
 # RECOMENDAÇÕES: sugere pessoas para trocar habilidades com o usuário logado
 @login_required
 def recomendacoes(request):
-    # O login do Django e o Usuario do Desenrola compartilham o mesmo username
+    # Busca o perfil Usuario vinculado ao User autenticado
     usuario = Usuario.objects.filter(user=request.user).first()
 
     contexto = {"usuario": usuario}
     if usuario is not None:
+        # Calcula as recomendações e soma o total de sugestões encontradas
         resultado = recomendar(usuario)
         contexto.update(resultado)
         contexto["total"] = sum(len(v) for v in resultado.values())
     return render(request, "recomendacoes.html", contexto)
 
+
+# Lista todas as notificações do usuário logado
 @login_required(login_url='login')
 def lista_notificacoes(request):
     notificacoes = request.user.notificacoes.all()
     return render(request, "notificacoes.html", {"notificacoes": notificacoes})
 
+
+# Marca uma notificação específica do usuário como lida
 @login_required(login_url='login')
 def marcar_lida(request, pk):
     request.user.notificacoes.filter(pk=pk).update(lida=True)
     return redirect("notificacoes")
 
+
+# Marca todas as notificações não lidas do usuário como lidas
 @login_required(login_url='login')
 def marcar_todas_lidas(request):
     request.user.notificacoes.filter(lida=False).update(lida=True)
     return redirect("notificacoes")
 
+
+# Decorador personalizado que restringe o acesso apenas a usuários ativos com permissão de staff (moderadores)
 def moderador(view):
     @login_required
     @wraps(view)
@@ -288,9 +328,11 @@ def moderador(view):
     return protegida
 
 
+# Painel de moderação: lista denúncias com filtro por status e paginação (20 por página)
 @moderador
 def painel(request):
     status = request.GET.get('status', '')
+    # Otimiza consultas buscando usuário alvo e histórico de eventos/moderadores
     denuncias = Denuncia.objects.select_related('usuario_alvo').prefetch_related('eventos__moderador').order_by('-data_registro', '-pk')
     if status in dict(Denuncia.STATUS_CHOICES):
         denuncias = denuncias.filter(status=status)
@@ -300,10 +342,12 @@ def painel(request):
     return render(request, 'painel.html', {'pagina': pagina, 'status': status, 'status_choices': Denuncia.STATUS_CHOICES})
 
 
+# Altera o status de uma denúncia de forma atômica e registra o evento no histórico de moderação
 @moderador
 @require_POST
 @transaction.atomic
 def alterar_status(request, pk):
+    # select_for_update trava o registro no banco durante a transação para evitar concorrência
     denuncia = get_object_or_404(Denuncia.objects.select_for_update(), pk=pk)
     status = request.POST.get('status')
     if status not in dict(Denuncia.STATUS_CHOICES):
@@ -317,6 +361,7 @@ def alterar_status(request, pk):
     return redirect('moderacao_denuncias')
 
 
+# Remove o alvo de uma denúncia (usuário inteiro ou habilidade específica) e marca a denúncia como resolvida
 @moderador
 @require_POST
 @transaction.atomic
@@ -327,10 +372,13 @@ def remover_alvo(request, pk):
     if denuncia.status == 'resolvida':
         messages.error(request, 'Esta denúncia já foi resolvida.')
         return redirect('moderacao_denuncias')
+    
     usuario = Usuario.objects.select_for_update().filter(pk=denuncia.usuario_alvo_id).first()
     if usuario is None:
         messages.error(request, 'Alvo sem vínculo ou já removido. Nenhum registro foi alterado.')
         return redirect('moderacao_denuncias')
+    
+    # Caso a denúncia seja contra um usuário: remove o User (se não for staff/superuser) e o perfil Usuario
     if denuncia.tipo == 'usuario':
         login = User.objects.select_for_update().filter(username=usuario.username).first()
         if login and (login.pk == request.user.pk or login.is_staff or login.is_superuser):
@@ -341,6 +389,8 @@ def remover_alvo(request, pk):
         if login:
             login.delete()
         usuario.delete()
+    
+    # Caso a denúncia seja contra uma habilidade: remove apenas a habilidade denunciada da string habilidadeEnsina
     elif denuncia.tipo == 'habilidade' and denuncia.habilidade_alvo:
         chave = normalizar(denuncia.habilidade_alvo)
         if chave not in separar_habilidades(usuario.habilidadeEnsina):
@@ -352,28 +402,35 @@ def remover_alvo(request, pk):
         descricao = f'Habilidade {denuncia.habilidade_alvo} removida de @{usuario.username}.'
     else:
         return HttpResponseBadRequest('Alvo inválido.')
+    
+    # Finaliza a denúncia e registra a ação no log de moderação
     denuncia.status = 'resolvida'
     denuncia.save(update_fields=['status'])
     EventoModeracao.objects.create(denuncia=denuncia, moderador=request.user, descricao=descricao)
     messages.success(request, descricao)
     return redirect('moderacao_denuncias')
 
+
 # ---------- HABILIDADES FAVORITAS ----------
 
+# Função auxiliar que retorna o perfil Usuario do usuário logado (criando-o se necessário)
 def perfil_do_usuario(request):
     """Devolve o Usuario do Desenrola ligado ao login (cria se ainda não existir)."""
     usuario, _ = Usuario.objects.get_or_create(user=request.user, defaults={'nome': request.user.username})
     return usuario
 
 
+# Lista habilidades ensinadas por outros usuários, com suporte a busca textual, filtro por categoria e marcação de favoritas
 @login_required(login_url='login')
 def lista_habilidades(request):
     """Habilidades que as outras pessoas ensinam, com busca e filtro por categoria."""
     usuario = perfil_do_usuario(request)
+    # Busca todas as habilidades do tipo 'ensinar' que não pertencem ao próprio usuário
     todas = list(Habilidade.objects.filter(tipo='ensinar')
                  .exclude(usuario=usuario)
                  .select_related('usuario')
                  .order_by('nome', 'usuario__nome'))
+    # Conjunto de IDs das habilidades já favoritadas pelo usuário para consulta rápida
     favoritas = set(Favorito.objects.filter(usuario=usuario).values_list('habilidade_id', flat=True))
 
     busca = request.GET.get('q', '').strip()
@@ -382,6 +439,7 @@ def lista_habilidades(request):
         categoria = ''
     termo = normalizar(busca)
 
+    # Filtra as habilidades por categoria e termo de busca (nome da habilidade ou nome do usuário)
     habilidades = []
     for habilidade in todas:
         habilidade.categoria = categoria_da_habilidade(habilidade.nome)
@@ -401,6 +459,7 @@ def lista_habilidades(request):
     })
 
 
+# Exibe a página com todas as habilidades favoritadas pelo usuário logado
 @login_required(login_url='login')
 def habilidades_favoritas(request):
     """Cards das habilidades salvas pelo usuário."""
@@ -411,6 +470,7 @@ def habilidades_favoritas(request):
     return render(request, 'favoritas.html', {'favoritos': favoritos})
 
 
+# Adiciona ou remove uma habilidade da lista de favoritos do usuário (toggle via POST)
 @login_required(login_url='login')
 @require_POST
 def alternar_favorito(request, pk):
@@ -418,6 +478,7 @@ def alternar_favorito(request, pk):
     usuario = perfil_do_usuario(request)
     habilidade = get_object_or_404(Habilidade, pk=pk, tipo='ensinar')
 
+    # Impede o usuário de favoritar a própria habilidade
     if habilidade.usuario_id == usuario.pk:
         messages.error(request, 'Você não pode favoritar a sua própria habilidade.')
     else:
@@ -428,68 +489,8 @@ def alternar_favorito(request, pk):
             favorito.delete()
             messages.success(request, f'"{habilidade.nome}" foi removida das favoritas.')
 
+    # Redireciona com segurança para a URL de retorno ('next') se for do mesmo host, ou para a lista padrão
     destino = request.POST.get('next', '')
     if not url_has_allowed_host_and_scheme(destino, allowed_hosts={request.get_host()}):
         destino = 'lista_habilidades'
     return redirect(destino)
-
-@login_required(login_url='login')
-def sessoes_view(request):
-    usuario_logado = request.user.usuario
-
-    if request.method == 'POST':
-        acao = request.POST.get('acao')
-
-        # 1. Criar nova sessão
-        if acao == 'criar':
-            convidado_id = request.POST.get('convidado_id')
-            habilidade = request.POST.get('habilidade')
-            data_hora = request.POST.get('data_hora')
-            formato = request.POST.get('formato')
-            local_ou_link = request.POST.get('local_ou_link', '')
-
-            convidado = get_object_or_404(Usuario, id=convidado_id)
-            Sessao.objects.create(
-                solicitante=usuario_logado,
-                convidado=convidado,
-                habilidade=habilidade,
-                data_hora=data_hora,
-                formato=formato,
-                local_ou_link=local_ou_link
-            )
-            return redirect('sessoes')
-
-        # 2. Atualizar status (confirmar, concluir ou cancelar)
-        sessao_id = request.POST.get('sessao_id')
-        sessao = get_object_or_404(
-            Sessao,
-            Q(solicitante=usuario_logado) | Q(convidado=usuario_logado),
-            id=sessao_id
-        )
-
-        if acao == 'confirmar' and sessao.convidado == usuario_logado:
-            sessao.status = 'confirmada'
-        elif acao == 'concluir':
-            sessao.status = 'concluida'
-        elif acao == 'cancelar':
-            sessao.status = 'cancelada'
-        
-        sessao.save()
-        return redirect('sessoes')
-
-    # Lista sessões do usuário e outros usuários disponíveis para agendamento
-    sessoes = Sessao.objects.filter(
-        Q(solicitante=usuario_logado) | Q(convidado=usuario_logado)
-    )
-    sessoes = list(sessoes.select_related('solicitante', 'convidado'))
-    for sessao in sessoes:
-        parceiro = sessao.convidado if sessao.solicitante == usuario_logado else sessao.solicitante
-        sessao.contato_liberado = sessao.status in ('confirmada', 'concluida')
-        sessao.whatsapp_parceiro = parceiro.link_whatsapp if sessao.contato_liberado else ''
-    outros_usuarios = Usuario.objects.exclude(id=usuario_logado.id)
-
-    return render(request, 'sessoes.html', {
-        'sessoes': sessoes,
-        'usuario_logado': usuario_logado,
-        'outros_usuarios': outros_usuarios,
-    })
