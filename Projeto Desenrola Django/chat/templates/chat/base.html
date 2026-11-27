@@ -1,6 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chat | Desenrola</title><link rel="stylesheet" href="{% static 'chat/chat.css' %}"></head>
-<body><main class="painel"><header><a class="marca" href="{% url 'home' %}">Desenrola</a><nav><a href="{% url 'chat:lista' %}">Mensagens</a> · <a href="{% url 'home' %}">Voltar ao site</a></nav><span>Olá, {{ request.user.username }}</span></header>{% block conteudo %}{% endblock %}</main></body>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mensagens | Desenrola</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/chat.css' %}?v=3">
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="{% url 'home' %}" class="marca">Desenrola</a>
+            <nav class="topbar-links chat-nav">
+                <a href="{% url 'home' %}#como-funciona">Como funciona</a>
+                <a href="{% url 'home' %}#categorias">Habilidades</a>
+                <a href="{% url 'home' %}#convivencia">Convivência</a>
+                <a href="{% url 'reportar' %}">Denunciar</a>
+                <a class="ativo" href="{% url 'chat:lista' %}">Mensagens</a>
+            </nav>
+            <a href="{% url 'meu_perfil' %}" class="btn btn-contorno">
+                Meu perfil
+            </a>
+        </div>
+    </header>
+
+    <main class="painel">
+        {% block conteudo %}{% endblock %}
+    </main>
+</body>
 </html>

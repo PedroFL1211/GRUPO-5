@@ -1,6 +1,51 @@
 {% extends 'chat/base.html' %}
+
 {% block conteudo %}
-<section><a href="{% url 'chat:lista' %}">← Voltar aos usuários</a><h1>Conversa com {{ outro.get_full_name|default:outro.username }}</h1><p>Últimas 100 mensagens. Atualize a página para receber novas mensagens.</p><a href="{% url 'chat:conversa' outro.pk %}">Atualizar conversa</a></section>
-<div class="historico" aria-label="Histórico da conversa">{% for mensagem in mensagens %}<article class="balao {% if mensagem.remetente_id == request.user.pk %}minha{% endif %}"><strong>{{ mensagem.remetente.username }}</strong><p>{{ mensagem.texto }}</p><time datetime="{{ mensagem.criada_em|date:'c' }}">{{ mensagem.criada_em|date:'d/m/Y H:i' }}</time></article>{% empty %}<p>Envie a primeira mensagem!</p>{% endfor %}</div>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Enviar mensagem</button></form>
+<a class="voltar" href="{% url 'chat:lista' %}">
+    ← Voltar às mensagens
+</a>
+
+<section class="chat-card conversa-card">
+    <div class="conversa-header">
+        <div class="usuario-info">
+            <div class="avatar avatar-petroleo">
+                {{ outro.get_full_name|default:outro.username|first|upper }}
+            </div>
+            <div>
+                <h2>{{ outro.get_full_name|default:outro.username }}</h2>
+                <p class="descricao">Conversa privada</p>
+            </div>
+        </div>
+        <a class="btn btn-contorno" href="{% url 'chat:conversa' outro.pk %}">
+            Atualizar
+        </a>
+    </div>
+
+    <div class="historico" aria-label="Histórico da conversa">
+        {% for mensagem in mensagens %}
+        <article class="balao {% if mensagem.remetente_id == request.user.pk %}minha{% endif %}">
+            <strong>{{ mensagem.remetente.username }}</strong>
+            <p>{{ mensagem.texto }}</p>
+            <time datetime="{{ mensagem.criada_em|date:'c' }}">
+                {{ mensagem.criada_em|date:'d/m/Y H:i' }}
+            </time>
+        </article>
+        {% empty %}
+        <div class="vazio">
+            <h3>Comece uma conversa!</h3>
+            <p>Envie a primeira mensagem.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form method="post" class="form-chat">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-coral" type="submit">
+            Enviar mensagem →
+        </button>
+    </form>
+</section>
+
+
 {% endblock %}

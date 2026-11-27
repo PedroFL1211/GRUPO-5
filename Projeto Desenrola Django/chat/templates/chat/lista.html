@@ -1,2 +1,35 @@
 {% extends 'chat/base.html' %}
-{% block conteudo %}<section><h1>Suas conversas começam aqui</h1><p>Escolha uma pessoa para trocar conhecimentos.</p><ul class="usuarios">{% for usuario in usuarios %}<li><a href="{% url 'chat:conversa' usuario.pk %}">{{ usuario.get_full_name|default:usuario.username }} <span>Conversar →</span></a></li>{% empty %}<li>Nenhum outro usuário disponível.</li>{% endfor %}</ul></section>{% endblock %}
+
+{% block conteudo %}
+<section class="chat-intro">
+    <span class="etiqueta">Conecte-se com pessoas</span>
+    <h1>Suas mensagens</h1>
+    <p>Grandes aprendizados começam com uma conversa.</p>
+</section>
+
+<section class="chat-card">
+    <h2>Encontre alguém para conversar</h2>
+    <p class="descricao">Escolha uma pessoa para trocar conhecimentos.</p>
+
+    <ul class="usuarios">
+        {% for usuario in usuarios %}
+        <li>
+            <div class="usuario-info">
+                <div class="avatar {% cycle 'avatar-petroleo' 'avatar-coral' %}">
+                    {{ usuario.get_full_name|default:usuario.username|first|upper }}
+                </div>
+                <div class="usuario-nome">
+                    {{ usuario.get_full_name|default:usuario.username }}
+                </div>
+            </div>
+
+            <a class="btn btn-contorno" href="{% url 'chat:conversa' usuario.pk %}">
+                Conversar →
+            </a>
+        </li>
+        {% empty %}
+        <li>Nenhum outro usuário disponível.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
