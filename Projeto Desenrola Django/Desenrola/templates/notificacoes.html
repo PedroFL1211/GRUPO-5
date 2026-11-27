@@ -1,42 +1,55 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Notificações - Desenrola</title>
-  <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
-    .topo { display: flex; justify-content: space-between; align-items: center; }
-    .item { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid #ddd; }
-    .item.nao-lida { font-weight: bold; }
-    .item small { color: #777; font-weight: normal; }
-    .nova_solicitacao .tipo { color: #185FA5; }
-    .sessao_aceita .tipo { color: #3B6D11; }
-    .sessao_recusada .tipo { color: #A32D2D; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações - Desenrola</title>
+    <link rel="stylesheet" href="{% static 'css/notificacoes.css' %}">
 </head>
 <body>
-  <div class="topo">
-    <h1>Notificações</h1>
-    <a href="{% url 'marcar_todas_lidas' %}">Marcar todas como lidas</a>
-  </div>
+    <nav class="not-navbar">
+        <a href="{% url 'home' %}">❮ Voltar</a>
+        <a href="{% url 'sessoes' %}">Minhas sessões</a>
+    </nav>
 
-  {% for n in notificacoes %}
-    <div class="item {{ n.tipo }} {% if not n.lida %}nao-lida{% endif %}">
-      <div>
-        <div class="tipo">{{ n.get_tipo_display }}</div>
-        <div>{{ n.mensagem }}</div>
-        <small>{{ n.criada_em|timesince }} atrás</small>
-      </div>
-      {% if not n.lida %}
-        <a href="{% url 'marcar_lida' n.pk %}">Marcar como lida</a>
-      {% else %}
-        <small>Lida</small>
-      {% endif %}
-    </div>
-  {% empty %}
-    <p>Você não tem notificações.</p>
-  {% endfor %}
+    <main class="not-pagina">
+        <header class="not-cabecalho">
+            <div>
+                <h1>Notificações</h1>
+                <p>Acompanhe as solicitações e respostas das suas sessões.</p>
+            </div>
+            {% if notificacoes %}
+                <a href="{% url 'marcar_todas_lidas' %}" class="not-botao">Marcar todas como lidas</a>
+            {% endif %}
+        </header>
+
+        {% if notificacoes %}
+        <ul class="not-lista">
+            {% for n in notificacoes %}
+            <li class="not-item {{ n.tipo }}{% if not n.lida %} nao-lida{% endif %}">
+                <div>
+                    <span class="not-tipo">{{ n.get_tipo_display }}</span>
+                    <p class="not-mensagem">{{ n.mensagem }}</p>
+                    <p class="not-data">{{ n.criada_em|date:"d/m/Y, H:i" }}</p>
+                </div>
+                <div class="not-acao">
+                    {% if not n.lida %}
+                        <a href="{% url 'marcar_lida' n.pk %}" class="not-marcar">Marcar como lida</a>
+                    {% else %}
+                        <span class="not-lida-marca">✓ Lida</span>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <section class="not-vazio">
+            <h2>Você não tem notificações</h2>
+            <p>Quando alguém pedir uma sessão ou responder a um pedido seu, o aviso aparece aqui.</p>
+        </section>
+        {% endif %}
+    </main>
     {% include "_rodape.html" %}
 </body>
 </html>
