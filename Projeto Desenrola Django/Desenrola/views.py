@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Usuario, Habilidade, Denuncia, EventoModeracao
+from .models import Usuario, Habilidade, Denuncia, EventoModeracao, Sessao
 from django.contrib import messages
 from .recomendacoes import recomendar, normalizar, separar_habilidades
 from functools import wraps
@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST
 from django.utils.http import url_has_allowed_host_and_scheme
 from .models import Favorito
 from .categorias import NOMES_DAS_CATEGORIAS, categoria_da_habilidade
+from django.db.models import Q
 
 
 # CADASTRO: salva um usuário novo no banco (versão legada/alternativa usando username e campos de texto)
@@ -248,7 +249,61 @@ def editar_perfil_view(request):
 # Renderiza a página de sessões apenas para usuários autenticados
 @login_required(login_url='login')
 def sessoes_view(request):
-    return render(request, 'sessoes.html')
+    usuario_logado, _ = Usuario.objects.get_or_create(
+        user=request.user,
+        defaults={'nome': request.user.username}
+    )
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+
+        # 1. Criar nova sessão
+        if acao == 'criar':
+            convidado_id = request.POST.get('convidado_id')
+            habilidade = request.POST.get('habilidade')
+            data_hora = request.POST.get('data_hora')
+            formato = request.POST.get('formato')
+            local_ou_link = request.POST.get('local_ou_link', '')
+
+            convidado = get_object_or_404(Usuario, id=convidado_id)
+            Sessao.objects.create(
+                solicitante=usuario_logado,
+                convidado=convidado,
+                habilidade=habilidade,
+                data_hora=data_hora,
+                formato=formato,
+                local_ou_link=local_ou_link
+            )
+            return redirect('sessoes')
+
+        # 2. Atualizar status (confirmar, concluir ou cancelar)
+        sessao_id = request.POST.get('sessao_id')
+        sessao = get_object_or_404(
+            Sessao,
+            Q(solicitante=usuario_logado) | Q(convidado=usuario_logado),
+            id=sessao_id
+        )
+
+        if acao == 'confirmar' and sessao.convidado == usuario_logado:
+            sessao.status = 'confirmada'
+        elif acao == 'concluir':
+            sessao.status = 'concluida'
+        elif acao == 'cancelar':
+            sessao.status = 'cancelada'
+
+        sessao.save()
+        return redirect('sessoes')
+
+    sessoes = Sessao.objects.filter(
+        Q(solicitante=usuario_logado) | Q(convidado=usuario_logado)
+    )
+    outros_usuarios = Usuario.objects.exclude(id=usuario_logado.id)
+
+    return render(request, 'sessoes.html', {
+        'sessoes': sessoes,
+        'usuario_logado': usuario_logado,
+        'outros_usuarios': outros_usuarios,
+    })
 
 
 # Importações redundantes (já feitas no topo do arquivo)
