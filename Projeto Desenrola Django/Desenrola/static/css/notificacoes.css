@@ -1,0 +1,156 @@
+/* Tela "Notificações". Arquivo independente (não depende de outros CSS do site). */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --not-petroleo-escuro: #053640;
+    --not-petroleo: #0E6E82;
+    --not-petroleo-vibrante: #189CB5;
+    --not-petroleo-claro: #A6DEE9;
+    --not-coral: #D85A30;
+    --not-coral-claro: #FAECE7;
+    --not-bege: #F1EFE8;
+    --not-branco: #FFFFFF;
+    --not-texto: #2C2C2A;
+    --not-texto-suave: #5F5E5A;
+    --not-verde: #2A7E46;
+    --not-verde-fundo: #E6F4EA;
+    --not-erro: #A32D2D;
+    --not-fonte-titulo: 'Fredoka', sans-serif;
+    --not-fonte: 'Nunito', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--not-bege);
+    font-family: var(--not-fonte);
+    color: var(--not-texto);
+    line-height: 1.5;
+}
+
+/* ---------- Barra do topo (mesmo padrão das outras telas) ---------- */
+.not-navbar {
+    background-color: var(--not-petroleo);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+.not-navbar a { color: #fff; text-decoration: none; font-weight: 700; }
+.not-navbar a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* ---------- Conteúdo ---------- */
+.not-pagina {
+    max-width: 760px;
+    margin: 32px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.not-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.not-cabecalho h1 {
+    font-family: var(--not-fonte-titulo);
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--not-petroleo-escuro);
+}
+.not-cabecalho p { color: var(--not-texto-suave); }
+
+.not-botao {
+    display: inline-block;
+    padding: 10px 22px;
+    border: 1px solid var(--not-petroleo);
+    border-radius: 24px;
+    color: var(--not-petroleo);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.15s, color 0.15s;
+}
+.not-botao:hover { background-color: var(--not-petroleo); color: #fff; }
+.not-botao:focus-visible { outline: 3px solid var(--not-petroleo-vibrante); outline-offset: 3px; }
+
+/* ---------- Lista ---------- */
+.not-lista { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.not-item {
+    --cor: var(--not-petroleo);
+    background-color: var(--not-branco);
+    border-radius: 16px;
+    border-left: 6px solid transparent;
+    padding: 18px 22px;
+    box-shadow: 0 2px 8px rgba(5, 54, 64, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+.not-item.nova_solicitacao { --cor: var(--not-petroleo); }
+.not-item.sessao_aceita { --cor: var(--not-verde); }
+.not-item.sessao_recusada { --cor: var(--not-erro); }
+
+/* Só as não lidas ganham a faixa colorida e o texto em destaque */
+.not-item.nao-lida { border-left-color: var(--cor); }
+.not-item.nao-lida .not-mensagem { font-weight: 800; }
+.not-item:not(.nao-lida) { background-color: #FBFAF6; }
+.not-item:not(.nao-lida) .not-mensagem { color: var(--not-texto-suave); }
+
+.not-tipo {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #fff;
+    background-color: var(--cor);
+}
+.not-item:not(.nao-lida) .not-tipo { background-color: transparent; color: var(--cor); border: 1px solid var(--cor); }
+.not-mensagem { margin: 8px 0 2px; }
+.not-data { font-size: 0.85rem; color: var(--not-texto-suave); }
+
+.not-acao { flex: none; text-align: right; }
+.not-lida-marca { font-size: 0.85rem; font-weight: 700; color: var(--not-texto-suave); }
+.not-marcar {
+    display: inline-block;
+    padding: 8px 18px;
+    border: 1px solid var(--not-coral);
+    border-radius: 24px;
+    color: var(--not-coral);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.15s;
+}
+.not-marcar:hover { background-color: var(--not-coral-claro); }
+.not-marcar:focus-visible { outline: 3px solid var(--not-petroleo-vibrante); outline-offset: 3px; }
+
+/* ---------- Estado vazio ---------- */
+.not-vazio {
+    background-color: var(--not-branco);
+    border-radius: 16px;
+    padding: 40px 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(5, 54, 64, 0.06);
+}
+.not-vazio h2 {
+    font-family: var(--not-fonte-titulo);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--not-petroleo-escuro);
+    margin-bottom: 8px;
+}
+.not-vazio p { color: var(--not-texto-suave); }
+
+/* ---------- Celular ---------- */
+@media (max-width: 560px) {
+    .not-cabecalho h1 { font-size: 1.6rem; }
+    .not-navbar { padding: 14px 16px; }
+    .not-item { flex-direction: column; align-items: flex-start; }
+    .not-acao { text-align: left; }
+}
