@@ -33,10 +33,20 @@ class Usuario(models.Model):
     cidade = models.CharField(max_length=100)
     bio = models.TextField(max_length=200)
     formato_troca = models.CharField(max_length=20, choices=FORMATO_CHOICES, default='Flexível')
+    whatsapp = models.CharField(max_length=20, blank=True)
     data_cadastro = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nome
+
+    @property
+    def link_whatsapp(self):
+        numero = "".join(c for c in self.whatsapp if c.isdigit())
+        if not numero:
+            return ""
+        if len(numero) in (10, 11):
+            numero = "55" + numero
+        return f"https://wa.me/{numero}"
     @property
     def habilidadeEnsina(self):
         return ", ".join(self.habilidades.filter(tipo="ensinar").values_list("nome", flat=True))

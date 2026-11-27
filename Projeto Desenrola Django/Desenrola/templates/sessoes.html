@@ -94,6 +94,13 @@
                     {% if sessao.local_ou_link %}
                         <p><strong>Local/Link:</strong> {{ sessao.local_ou_link }}</p>
                     {% endif %}
+                                        {% if sessao.contato_liberado %}
+                        {% if sessao.whatsapp_parceiro %}
+                            <p><strong>WhatsApp:</strong> <a href="{{ sessao.whatsapp_parceiro }}" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+                        {% else %}
+                            <p><strong>WhatsApp:</strong> seu parceiro ainda não cadastrou o número.</p>
+                        {% endif %}
+                    {% endif %}
                 </div>
 
                 {% if sessao.status == 'pendente' or sessao.status == 'confirmada' %}
